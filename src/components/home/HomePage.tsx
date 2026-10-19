@@ -19,7 +19,6 @@ export const HomePage: React.FC<HomePageProps> = ({
   // Navigation dropdown states
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lightTheme, setLightTheme] = useState(false);
 
   // Live currency ticker states
   const [eurUsd, setEurUsd] = useState({ val: 1.0864, chg: 0.0026, pct: 0.24 });
@@ -70,7 +69,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   ];
 
   return (
-    <div className={`min-h-screen bg-[#17181D] text-[#F7F7F8] flex flex-col selection:bg-[#FF7900] selection:text-white relative overflow-x-hidden ${lightTheme ? 'smart-market-light' : ''}`}>
+    <div className="min-h-screen bg-[#17181D] text-[#F7F7F8] flex flex-col selection:bg-[#FF7900] selection:text-white relative overflow-x-hidden">
       
       {/* =========================================================================
           2. NAVIGATION BAR (Reference proportions: 76-84px height, #141519, #303139)
@@ -182,16 +181,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </button>
               </>
 
-            {/* Terminal theme control */}
-            <button
-              type="button"
-              title="Switch to light theme"
-              aria-label="Switch to light theme"
-              onClick={() => setLightTheme(true)}
-              className="hidden sm:flex p-1.5 text-[#A4A7B0] hover:text-white hover:bg-[#1C1D23] rounded-lg transition-colors cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[18px]">light_mode</span>
-            </button>
 
             {/* Mobile Hamburger Menu Toggle */}
             <button

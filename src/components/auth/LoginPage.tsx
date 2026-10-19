@@ -127,75 +127,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
       {/* 2. Main Login Body: Split Hero & Login Card */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 flex items-center justify-center">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Left Column: Institutional Value Props & Live Market Snapshot */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-semibold tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-              <span>INSTITUTIONAL LOGIN GATEWAY</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
-              Sign in to your <span className="text-primary underline decoration-primary/40 decoration-4 underline-offset-4">Technical &amp; Fundamental</span> Workstation
-            </h1>
-
-            <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed max-w-xl font-normal">
-              Access real-time TradingView multi-chart layouts, Indian equity deep dives,
-              balance sheet fundamentals, and macro catalyst feeds. Pure analysis—completely free of buy or sell execution distractions.
-            </p>
-
-            {/* Feature Checkpoints */}
-            <div className="space-y-3 pt-2 text-sm text-on-surface-variant font-normal">
-              <div className="flex items-center gap-2.5 text-on-surface">
-                <span className="material-symbols-outlined text-primary text-[18px]">verified</span>
-                <span>Official TradingView Interactive Charting with 100+ Indicators</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-on-surface">
-                <span className="material-symbols-outlined text-primary text-[18px]">verified</span>
-                <span>Complete Fundamental Statements: P&amp;L, Balance Sheets &amp; RBI Policies</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-on-surface">
-                <span className="material-symbols-outlined text-primary text-[18px]">verified</span>
-                <span>Automated Breakout Scanner &amp; Mathematical Target Calculator</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-on-surface">
-                <span className="material-symbols-outlined text-primary text-[18px]">verified</span>
-                <span>Local Session Security with Zero Brokerage Routing</span>
-              </div>
-            </div>
-
-            {/* Live Market Mini-Card */}
-            <div className="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2 max-w-lg">
-              <div className="flex items-center justify-between text-xs text-outline border-b border-outline-variant/20 pb-2">
-                <span className="text-secondary font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block animate-pulse" />
-                  NSE &amp; GLOBAL FOREX ACTIVE
-                </span>
-                <span className="font-mono text-xs">12ms Latency</span>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-xs">
-                <div>
-                  <span className="text-outline text-[11px] block font-medium">NIFTY 50</span>
-                  <span className="text-white font-mono font-bold">24,852.15</span>
-                  <span className="text-secondary font-mono text-[11px] block">+0.58%</span>
-                </div>
-                <div>
-                  <span className="text-outline text-[11px] block font-medium">SENSEX</span>
-                  <span className="text-white font-mono font-bold">81,720.40</span>
-                  <span className="text-secondary font-mono text-[11px] block">+0.51%</span>
-                </div>
-                <div>
-                  <span className="text-outline text-[11px] block font-medium">USD / INR</span>
-                  <span className="text-white font-mono font-bold">83.92</span>
-                  <span className="text-secondary font-mono text-[11px] block">+0.10%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Dedicated Login Form Card */}
-          <div className="lg:col-span-6 w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto">
+          {/* Login Form Card */}
+          <div className="w-full">
             <div className="bg-surface-container-low border border-primary/30 rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
               {/* Green Accent Bar */}
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-emerald-300 to-primary" />

@@ -131,64 +131,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({
 
       {/* 2. Main Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 flex items-center justify-center">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Left Column: Why Register */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-semibold tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-              <span>NEW ANALYST REGISTRATION</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-[1.15]">
-              Join the Elite Circle of <span className="text-primary underline decoration-primary/40 decoration-4 underline-offset-4">Technical &amp; Fundamental</span> Researchers
-            </h1>
-
-            <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed font-normal">
-              Equip yourself with institutional TradingView multi-chart layouts, deep Indian stock analytics, balance sheets, and real-time RBI &amp; earnings catalysts.
-            </p>
-
-            <div className="space-y-3.5 pt-2 text-xs">
-              <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-start gap-3">
-                <span className="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">
-                  candlestick_chart
-                </span>
-                <div>
-                  <h4 className="text-white font-bold text-sm">Pure TradingView Integration</h4>
-                  <p className="text-outline text-xs mt-0.5 font-normal">
-                    100+ indicators, responsive crosshair, multi-timeframe grids in high-contrast dark theme.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-start gap-3">
-                <span className="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">
-                  feed
-                </span>
-                <div>
-                  <h4 className="text-white font-bold text-sm">Comprehensive Corporate Disclosures</h4>
-                  <p className="text-outline text-xs mt-0.5 font-normal">
-                    Quarterly earnings, 4-year P&amp;L trajectories, FII/DII shareholding patterns, and dividend calendars.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 flex items-start gap-3">
-                <span className="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">
-                  block
-                </span>
-                <div>
-                  <h4 className="text-white font-bold text-sm">100% Zero Execution Distraction</h4>
-                  <p className="text-outline text-xs mt-0.5 font-normal">
-                    No buy/sell execution traps, no order slippage, no broker commissions.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Registration Card */}
-          <div className="lg:col-span-7 w-full max-w-lg mx-auto">
+        <div className="w-full max-w-lg mx-auto">
+          {/* Registration Card */}
+          <div className="w-full">
             <div className="bg-surface-container-low border border-primary/30 rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-emerald-300 to-primary" />
 
