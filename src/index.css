@@ -90,6 +90,35 @@
   }
 }
 
+/* Homepage light theme selected from the terminal theme control */
+.smart-market-light {
+  background-color: #f8fafc !important;
+  color: #101828 !important;
+}
+
+.smart-market-light header,
+.smart-market-light .bg-[#141519] {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.smart-market-light .text-\[\#F7F7F8\],
+.smart-market-light .text-white {
+  color: #101828 !important;
+}
+
+.smart-market-light .text-\[\#A4A7B0\] {
+  color: #64748b !important;
+}
+
+.smart-market-light .bg-\[\#1C1D23\] {
+  background-color: #f1f5f9 !important;
+}
+
+.smart-market-light .border-\[\#303139\] {
+  border-color: #e2e8f0 !important;
+}
+
 /* Orange Glows and Premium Styling Utilities */
 .glow-orange {
   box-shadow: 0 0 24px rgba(255, 121, 0, 0.35);
