@@ -146,7 +146,7 @@ export default function App() {
       // Ignore
     }
     navigateTo('market-charts');
-    showToast(`Welcome to MarketPulse, ${loggedInUser.name}!`);
+    showToast(`Welcome to Smart Market, ${loggedInUser.name}!`);
   };
 
   const handleLogout = () => {
@@ -252,7 +252,6 @@ export default function App() {
           onSelectStock={handleOpenStockDetails}
           user={user}
           onOpenAuth={handleOpenAuth}
-          onOpenUserProfile={() => setIsProfileModalOpen(true)}
         />
       ) : (
         /* 5. Institutional Workstation Layout (Header + Sidebar + Active View) */
@@ -364,7 +363,7 @@ export default function App() {
                 </button>
                 <span className="text-outline">·</span>
                 <p className="font-mono-xs text-mono-xs text-outline">
-                  PipPulse Forex Trading · Precision Technical Analysis &amp; Currency Research.
+                  Smart Market Trading · Precision Technical Analysis &amp; Currency Research.
                 </p>
               </div>
               <div className="flex items-center gap-space-md font-mono-xs text-mono-xs text-outline">
@@ -374,7 +373,7 @@ export default function App() {
                 </span>
                 <span>TradingView Embed Active</span>
                 <span>UTC+00:00</span>
-                <span className="text-primary font-bold">PipPulse Dark Theme</span>
+                <span className="text-primary font-bold">Smart Market Dark Theme</span>
               </div>
             </footer>
           </div>

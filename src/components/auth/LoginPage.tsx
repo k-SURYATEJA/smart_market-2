@@ -86,14 +86,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               className="flex items-center gap-2.5 cursor-pointer group text-left select-none"
             >
               <img
-                alt="MarketPulse Logo"
+                alt="Smart Market Logo"
                 className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
                 src="https://lh3.googleusercontent.com/aida/AEtjO1UogdCnsq4CnqcjUIRoH3QOpKXr8AtUC1QccdpaSbbj-_EH2vhUg0gZbrXAAfyROPqUburyuRZhWMan3zXRt-Dg34kve2uzywXuACDhpPMJQ0t-Z99uZWCxQ4Wk8cHp29L-gc878tOwDwlWZV189CcSH_kClsaLDTmPeINcMpXHeT_RzJOp7Zmtb9peAE5R_UPhFAQr3HK1mbZxYRZIaD8t0c-rMrQ9WyQ16DxhYKQehpeGvpwfTq4t3Y"
                 referrerPolicy="no-referrer"
               />
               <div className="flex flex-col">
                 <span className="font-headline-md text-base sm:text-lg font-bold tracking-tight text-white leading-none">
-                  MarketPulse
+                  Smart Market
                 </span>
                 <span className="font-mono-xs text-[9px] font-bold text-primary tracking-widest uppercase mt-0.5">
                   Analytics Terminal
@@ -370,7 +370,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       <footer className="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-outline font-normal">
           <p>
-            MarketPulse Analytics Terminal · Built for Technical &amp; Fundamental Research only.
+            Smart Market Analytics Terminal · Built for Technical &amp; Fundamental Research only.
           </p>
           <div className="flex items-center gap-4">
             <button

@@ -7,7 +7,6 @@ interface HomePageProps {
   onSelectStock: (symbol: string) => void;
   user: UserProfile | null;
   onOpenAuth: (mode?: 'signin' | 'signup') => void;
-  onOpenUserProfile: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -16,14 +15,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   onSelectStock,
   user,
   onOpenAuth,
-  onOpenUserProfile,
 }) => {
   // Navigation dropdown states
-  const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Live currency ticker states
   const [eurUsd, setEurUsd] = useState({ val: 1.0864, chg: 0.0026, pct: 0.24 });
@@ -55,23 +50,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     return () => clearInterval(timer);
   }, []);
 
-  // Keyboard shortcut '/' to trigger search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((document.activeElement?.tagName || ''))) {
-        e.preventDefault();
-        setSearchModalOpen(true);
-      }
-      if (e.key === 'Escape') {
-        setSearchModalOpen(false);
-        setToolsDropdownOpen(false);
-        setMoreDropdownOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
@@ -90,11 +68,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     { symbol: 'USD/CHF', name: 'US Dollar / Swiss Franc', price: '0.8654', change: '-0.08%', isPositive: false },
   ];
 
-  const filteredPairs = forexPairs.filter(p =>
-    p.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <div className="min-h-screen bg-[#17181D] text-[#F7F7F8] flex flex-col selection:bg-[#FF7900] selection:text-white relative overflow-x-hidden">
       
@@ -109,7 +82,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
-            {/* Geometric PipPulse Logo (Angled interlocking triangles with orange gradient) */}
+            {/* Geometric Smart Market Logo (Angled interlocking triangles with orange gradient) */}
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF9B42] via-[#FF7900] to-[#E06300] p-0.5 shadow-[0_0_20px_rgba(255,121,0,0.4)] group-hover:scale-105 transition-transform flex items-center justify-center">
               <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-white stroke-current">
                 <path d="M4 17L12 5L20 17H14L12 13L10 17H4Z" fill="currentColor" fillOpacity="0.9" />
@@ -120,14 +93,14 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
                 <span className="text-xl sm:text-2xl font-black tracking-tight text-white leading-none">
-                  Pip<span className="text-[#FF7900]">Pulse</span>
+                  Smart <span className="text-[#FF7900]">Market</span>
                 </span>
                 <span className="px-1.5 py-0.5 rounded bg-[#FF7900]/20 text-[#FF9B42] border border-[#FF7900]/40 text-[9px] font-bold uppercase tracking-widest">
                   PRO
                 </span>
               </div>
               <span className="text-[10px] font-bold text-[#A4A7B0] tracking-wider uppercase mt-0.5">
-                FOREX TRADING
+                MARKET INTELLIGENCE
               </span>
             </div>
           </div>
@@ -142,58 +115,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               Markets
             </button>
 
-            {/* Trading Tools Dropdown */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => {
-                  setToolsDropdownOpen(!toolsDropdownOpen);
-                  setMoreDropdownOpen(false);
-                }}
-                className={`flex items-center gap-1 hover:text-white transition-colors cursor-pointer ${
-                  toolsDropdownOpen ? 'text-[#FF7900]' : ''
-                }`}
-              >
-                <span>Trading Tools</span>
-                <span className="material-symbols-outlined text-[16px]">expand_more</span>
-              </button>
-
-              {toolsDropdownOpen && (
-                <div className="absolute top-full left-0 mt-3 w-56 rounded-2xl bg-[#141519] border border-[#303139] shadow-2xl p-2 z-50">
-                  <button
-                    onClick={() => { onNavigateToSection('market-charts'); setToolsDropdownOpen(false); }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-[#1C1D23] hover:text-white text-xs flex items-center gap-2.5 transition-colors cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[#FF7900] text-[18px]">candlestick_chart</span>
-                    <div>
-                      <span className="block font-bold text-white">TradingView Charts</span>
-                      <span className="text-[10px] text-[#A4A7B0]">Multi-timeframe technicals</span>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => { onNavigateToSection('stock-screener'); setToolsDropdownOpen(false); }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-[#1C1D23] hover:text-white text-xs flex items-center gap-2.5 transition-colors cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[#FF7900] text-[18px]">filter_alt</span>
-                    <div>
-                      <span className="block font-bold text-white">Currency Screener</span>
-                      <span className="text-[10px] text-[#A4A7B0]">Momentum &amp; volatility scans</span>
-                    </div>
-                  </button>
-                  <button
-                    onClick={() => { onNavigateToSection('risk-reward-calculator'); setToolsDropdownOpen(false); }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-[#1C1D23] hover:text-white text-xs flex items-center gap-2.5 transition-colors cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[#FF7900] text-[18px]">calculate</span>
-                    <div>
-                      <span className="block font-bold text-white">Lot &amp; Risk Sizing</span>
-                      <span className="text-[10px] text-[#A4A7B0]">Mathematical position engine</span>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
-
             <button
               type="button"
               onClick={() => onNavigateToSection('trading-journal')}
@@ -202,21 +123,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               Strategies
             </button>
 
-            <button
-              type="button"
-              onClick={() => onNavigateToSection('impacted-news')}
-              className="hover:text-white transition-colors cursor-pointer"
-            >
-              Economic Calendar
-            </button>
-
             {/* More Dropdown */}
             <div className="relative">
               <button
                 type="button"
                 onClick={() => {
                   setMoreDropdownOpen(!moreDropdownOpen);
-                  setToolsDropdownOpen(false);
                 }}
                 className={`flex items-center gap-1 hover:text-white transition-colors cursor-pointer ${
                   moreDropdownOpen ? 'text-[#FF7900]' : ''
@@ -246,54 +158,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               )}
             </div>
 
-            {/* Reference Search Field Interaction (`Search /`) */}
-            <div
-              onClick={() => setSearchModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1C1D23] border border-[#303139] hover:border-[#FF7900]/60 transition-all cursor-pointer text-[#A4A7B0] hover:text-white"
-            >
-              <span className="material-symbols-outlined text-[16px]">search</span>
-              <span className="text-xs">Search</span>
-              <span className="px-1.5 py-0.2 rounded bg-[#303139]/70 text-[#F7F7F8] font-mono text-[10px] font-bold">
-                /
-              </span>
-            </div>
           </nav>
 
           {/* Right: Log In, Sign Up & Action Icons */}
           <div className="flex items-center gap-3">
-            {user ? (
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={onOpenUserProfile}
-                  className="flex items-center gap-2 p-1 pl-2 pr-3 rounded-xl bg-[#1C1D23] border border-[#FF7900]/40 hover:border-[#FF7900] transition-all cursor-pointer text-left"
-                >
-                  <img
-                    src={user.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'}
-                    alt={user.name}
-                    className="w-7 h-7 rounded-full object-cover ring-1 ring-[#FF7900]"
-                  />
-                  <div className="hidden sm:block">
-                    <span className="block text-xs text-white font-semibold leading-none">
-                      {user.name.split(' ')[0]}
-                    </span>
-                    <span className="block text-[9px] text-[#FF7900] font-bold uppercase tracking-wider">
-                      PRO TRADER
-                    </span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={onGetStarted}
-                  className="py-2.5 px-4 rounded-xl bg-[#FF7900] hover:bg-[#FF8C1A] text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(255,121,0,0.35)] cursor-pointer transition-all"
-                >
-                  <span>Trading Terminal</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </button>
-              </div>
-            ) : (
-              <>
+            <>
                 <button
                   type="button"
                   onClick={() => onNavigateToSection('login')}
@@ -311,7 +180,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                   Sign Up
                 </button>
               </>
-            )}
 
             {/* Reference Utility Icons (Mobile app, Theme, Grid) */}
             <div className="hidden sm:flex items-center gap-1 text-[#A4A7B0] pl-1 border-l border-[#303139]/80">
@@ -361,24 +229,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="w-full text-left py-2 px-3 rounded-lg text-sm font-semibold text-white hover:bg-[#1C1D23]"
             >
               Markets
-            </button>
-            <button
-              onClick={() => { onNavigateToSection('market-charts'); setMobileMenuOpen(false); }}
-              className="w-full text-left py-2 px-3 rounded-lg text-sm font-semibold text-white hover:bg-[#1C1D23]"
-            >
-              Trading Tools (Charts &amp; Screener)
-            </button>
-            <button
-              onClick={() => { onNavigateToSection('trading-journal'); setMobileMenuOpen(false); }}
-              className="w-full text-left py-2 px-3 rounded-lg text-sm font-semibold text-white hover:bg-[#1C1D23]"
-            >
-              Strategies &amp; Journal
-            </button>
-            <button
-              onClick={() => { onNavigateToSection('impacted-news'); setMobileMenuOpen(false); }}
-              className="w-full text-left py-2 px-3 rounded-lg text-sm font-semibold text-white hover:bg-[#1C1D23]"
-            >
-              Economic Calendar
             </button>
             <div className="pt-2 flex gap-2">
               <button
@@ -829,7 +679,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* =========================================================================
-          FOOTER (Matching PipPulse Dark Palette #141519, #303139)
+          FOOTER (Matching Smart Market Dark Palette #141519, #303139)
           ========================================================================= */}
       <footer className="w-full bg-[#111216] border-t border-[#303139] py-10 px-4 sm:px-6 lg:px-8 text-xs text-[#A4A7B0]">
         <div className="max-w-[1180px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -838,7 +688,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               P
             </div>
             <span className="font-extrabold text-white text-sm">
-              PipPulse <span className="text-[#FF7900]">Forex</span>
+              Smart <span className="text-[#FF7900]">Market</span>
             </span>
             <span className="text-[#303139]">·</span>
             <span>Professional Currency Trading &amp; Analytics</span>
@@ -857,9 +707,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             <button onClick={() => onNavigateToSection('risk-reward-calculator')} className="hover:text-white transition-colors cursor-pointer">
               Risk Engine
             </button>
-            <button onClick={() => onNavigateToSection('impacted-news')} className="hover:text-white transition-colors cursor-pointer">
-              Economic Calendar
-            </button>
             <button onClick={() => onNavigateToSection('login')} className="hover:text-[#FF7900] transition-colors cursor-pointer text-[#FF7900] font-bold">
               Log In
             </button>
@@ -867,69 +714,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </footer>
 
-      {/* =========================================================================
-          KEYBOARD / INTERACTIVE SEARCH MODAL ('/' shortcut)
-          ========================================================================= */}
-      {searchModalOpen && (
-        <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-24 px-4 animate-in fade-in duration-150"
-          onClick={() => setSearchModalOpen(false)}
-        >
-          <div 
-            className="w-full max-w-lg bg-[#141519] border border-[#303139] rounded-2xl shadow-2xl overflow-hidden"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="p-4 border-b border-[#303139] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#FF7900] text-[22px]">search</span>
-              <input
-                autoFocus
-                type="text"
-                placeholder="Search forex pairs, tools, strategies (e.g. EUR/USD, charts)..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent text-white placeholder-[#A4A7B0] outline-none text-sm font-medium"
-              />
-              <span className="text-[10px] text-[#A4A7B0] font-mono px-1.5 py-0.5 rounded border border-[#303139]">
-                ESC
-              </span>
-            </div>
-
-            <div className="p-2 max-h-72 overflow-y-auto">
-              <span className="text-[10px] uppercase font-bold text-[#A4A7B0] px-3 py-1.5 block">
-                Forex Currency Pairs
-              </span>
-              {filteredPairs.map(p => (
-                <div
-                  key={p.symbol}
-                  onClick={() => {
-                    onNavigateToSection('forex');
-                    setSearchModalOpen(false);
-                  }}
-                  className="px-3 py-2.5 rounded-xl hover:bg-[#1C1D23] flex items-center justify-between cursor-pointer group transition-colors"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-[#FF7900]" />
-                    <div>
-                      <span className="font-bold text-white text-xs group-hover:text-[#FF7900] transition-colors">
-                        {p.symbol}
-                      </span>
-                      <span className="text-[10px] text-[#A4A7B0] block">
-                        {p.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right font-mono text-xs">
-                    <span className="text-white font-bold">{p.price}</span>
-                    <span className={`block text-[10px] ${p.isPositive ? 'text-[#24C78B]' : 'text-[#FF4D5A]'}`}>
-                      {p.change}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

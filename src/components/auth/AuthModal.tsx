@@ -125,7 +125,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 {mode === 'signin' ? 'Sign In to Terminal' : 'Create Analyst Account'}
               </h2>
               <p className="text-xs text-outline font-normal">
-                MarketPulse Technical &amp; Fundamental Intelligence
+                Smart Market Technical &amp; Fundamental Intelligence
               </p>
             </div>
           </div>
