@@ -1,0 +1,6 @@
+{
+  "name": "MarketPulse - Indian Stocks & Global Trading Terminal",
+  "description": "Institutional-grade financial trading and market analytics platform for Indian equities, NSE/BSE stocks, global forex, and technical analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

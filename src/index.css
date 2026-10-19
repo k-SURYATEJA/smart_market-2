@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #17181d;
+  --color-surface-dim: #111216;
+  --color-surface-bright: #24262e;
+  --color-surface-container-lowest: #0e0f13;
+  --color-surface-container-low: #141519;
+  --color-surface-container: #1c1d23;
+  --color-surface-container-high: #24262e;
+  --color-surface-container-highest: #2d303a;
+  --color-on-surface: #f7f7f8;
+  --color-on-surface-variant: #a4a7b0;
+  --color-outline: #797c88;
+  --color-outline-variant: #303139;
+  
+  /* PipPulse Signature Vibrant Orange */
+  --color-primary: #ff7900;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ff9b42;
+  --color-on-primary-container: #ffffff;
+  --color-inverse-primary: #d96200;
+  --color-primary-fixed: #ffb066;
+  --color-primary-fixed-dim: #ff7900;
+  --color-on-primary-fixed: #000000;
+  --color-on-primary-fixed-variant: #401800;
+
+  /* Subtle Green for Positive Gains */
+  --color-secondary: #24c78b;
+  --color-on-secondary: #000000;
+  --color-secondary-container: #1b9b6c;
+  --color-on-secondary-container: #ffffff;
+  --color-secondary-fixed: #6fe1b8;
+  --color-secondary-fixed-dim: #24c78b;
+
+  /* Crimson Red for Down/Loss */
+  --color-tertiary: #ff4d5a;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #e03240;
+  --color-on-tertiary-container: #ffffff;
+  --color-error: #ff4d5a;
+  --color-on-error: #ffffff;
+
+  --color-background: #17181d;
+  --color-on-background: #f7f7f8;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    background-color: #17181d;
+    color: #f7f7f8;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #17181d;
+    color: #f7f7f8;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.011em;
+  }
+
+  ::selection {
+    background-color: #ff7900;
+    color: #ffffff;
+  }
+  
+  /* Scrollbar customization matching PipPulse Dark */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111216;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #303139;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ff7900;
+  }
+}
+
+/* Orange Glows and Premium Styling Utilities */
+.glow-orange {
+  box-shadow: 0 0 24px rgba(255, 121, 0, 0.35);
+}
+
+.glow-orange-sm {
+  box-shadow: 0 0 12px rgba(255, 121, 0, 0.4);
+}
+
+.border-orange-glow {
+  border-color: #ff7900;
+  box-shadow: 0 0 14px rgba(255, 121, 0, 0.35);
+}
+
+/* Backwards compatibility */
+.glow-green {
+  box-shadow: 0 0 20px rgba(255, 121, 0, 0.35);
+}
+.glow-yellow {
+  box-shadow: 0 0 20px rgba(255, 121, 0, 0.35);
+}
+
+/* Tabular figures for market prices & numbers */
+.tabular-nums, .font-mono, [class*="font-mono-"] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Typography tokens - Clean, crisp, high legibility */
+.font-mono-xs {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 15px;
+  letter-spacing: -0.01em;
+}
+.font-mono-sm {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+}
+.font-mono-md {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.01em;
+}
+.font-mono-lg {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.015em;
+}
+
+.font-label-sm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+}
+.font-label-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.font-body-sm {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.005em;
+}
+.font-body-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.008em;
+}
+.font-body-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+  letter-spacing: -0.011em;
+}
+
+.font-headline-md {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+.font-headline-lg {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.font-headline-xl {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
+/* Spacing tokens */
+.p-space-xs { padding: 0.25rem; }
+.p-space-sm { padding: 0.5rem; }
+.p-space-md { padding: 0.75rem; }
+.p-space-lg { padding: 1rem; }
+.p-space-xl { padding: 1.5rem; }
+
+.px-space-xs { padding-left: 0.25rem; padding-right: 0.25rem; }
+.px-space-sm { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-space-md { padding-left: 0.75rem; padding-right: 0.75rem; }
+.px-space-lg { padding-left: 1rem; padding-right: 1rem; }
+.px-space-xl { padding-left: 1.5rem; padding-right: 1.5rem; }
+
+.py-space-xs { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-space-sm { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-space-md { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-space-lg { padding-top: 1rem; padding-bottom: 1rem; }
+
+.pl-space-xs { padding-left: 0.25rem; }
+.pl-space-sm { padding-left: 0.5rem; }
+.pl-space-md { padding-left: 0.75rem; }
+
+.gap-space-xs { gap: 0.25rem; }
+.gap-space-sm { gap: 0.5rem; }
+.gap-space-md { gap: 0.75rem; }
+.gap-space-lg { gap: 1rem; }
+.gap-space-xl { gap: 1.5rem; }
