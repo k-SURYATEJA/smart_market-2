@@ -71,11 +71,10 @@ export const MarketChartsView: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-space-md">
-      {/* Header bar with pure black & yellow branding */}
-      <div className="flex flex-col gap-space-md bg-surface-container rounded-xl p-space-md border border-outline-variant/30">
-        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-space-md">
-        <div>
+<div className="flex w-full flex-col gap-5">
+      <div className="flex flex-col gap-5 rounded-xl border border-outline-variant/30 bg-surface-container p-5">
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-[24px]">candlestick_chart</span>
             <h2 className="font-headline-lg font-bold text-on-surface">
@@ -91,8 +90,10 @@ export const MarketChartsView: React.FC = () => {
         </div>
 
         {/* Layout & Timeframe Mode Controls */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* Layout Mode Selector */}
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-1">
+            <span className="font-mono-xs text-[10px] font-bold uppercase tracking-wider text-outline">Chart layout</span>
+            {/* Layout Mode Selector */}
           <div className="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/40">
             <button
               onClick={() => setLayoutMode('single')}
@@ -134,9 +135,11 @@ export const MarketChartsView: React.FC = () => {
               <span>2x2 Quad</span>
             </button>
           </div>
+          </div>
 
-          {/* Timeframe Selector */}
-          <div className="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/40 font-mono-xs text-mono-xs">
+          <div className="flex flex-col gap-1">
+            <span className="font-mono-xs text-[10px] font-bold uppercase tracking-wider text-outline">Timeframe</span>
+            <div className="flex items-center gap-1 rounded-lg border border-outline-variant/40 bg-surface-container-lowest p-1 font-mono-xs text-mono-xs">
             {['1', '5', '15', '60', 'D', 'W'].map(iv => (
               <button
                 key={iv}
@@ -151,6 +154,7 @@ export const MarketChartsView: React.FC = () => {
                 {iv === '60' ? '1H' : iv}
               </button>
             ))}
+            </div>
           </div>
         </div>
         </div>
@@ -229,12 +233,12 @@ export const MarketChartsView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
           {/* Chart 1 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-2">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-primary">Chart 1: {activeSymbol1}</span>
               <select
                 value={activeSymbol1}
                 onChange={e => setActiveSymbol1(e.target.value)}
-                className="bg-surface-container-lowest border border-outline-variant/40 rounded px-2 py-0.5 text-on-surface"
+                className="w-full min-w-0 rounded border border-outline-variant/40 bg-surface-container-lowest px-2 py-1 text-on-surface sm:w-56"
               >
                 {PRESET_MARKETS.map(p => (
                   <option key={p.symbol} value={p.symbol}>
@@ -255,12 +259,12 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Chart 2 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-2">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-secondary">Chart 2: {activeSymbol2}</span>
               <select
                 value={activeSymbol2}
                 onChange={e => setActiveSymbol2(e.target.value)}
-                className="bg-surface-container-lowest border border-outline-variant/40 rounded px-2 py-0.5 text-on-surface"
+                className="w-full min-w-0 rounded border border-outline-variant/40 bg-surface-container-lowest px-2 py-1 text-on-surface sm:w-56"
               >
                 {PRESET_MARKETS.map(p => (
                   <option key={p.symbol} value={p.symbol}>
@@ -285,7 +289,7 @@ export const MarketChartsView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
           {/* Quad 1 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-primary">{activeSymbol1}</span>
               <select
                 value={activeSymbol1}
@@ -310,7 +314,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 2 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-primary">{activeSymbol2}</span>
               <select
                 value={activeSymbol2}
@@ -335,7 +339,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 3 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-primary">{activeSymbol3}</span>
               <select
                 value={activeSymbol3}
@@ -360,7 +364,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 4 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="flex min-w-0 flex-col gap-2 px-2 pt-1 font-mono-xs text-mono-xs sm:flex-row sm:items-center sm:justify-between">
               <span className="font-bold text-primary">{activeSymbol4}</span>
               <select
                 value={activeSymbol4}
