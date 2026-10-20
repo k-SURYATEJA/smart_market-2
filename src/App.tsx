@@ -52,17 +52,7 @@ export default function App() {
     } catch {
       // Fallback
     }
-    // Default Pro Analyst profile for seamless testing and demonstration
-    return {
-      id: 'usr-demo-01',
-      name: 'Alex Morgan',
-      email: 'alex.morgan@marketpulse.io',
-      role: 'Senior Market Technician (CMT)',
-      specialty: 'Equities & Swing Technicals',
-      plan: 'Pro Terminal',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-      joinedDate: 'October 2024',
-    };
+    return null;
   });
 
   // Modals state
@@ -122,10 +112,23 @@ export default function App() {
   }, []);
 
   const navigateTo = (screen: ScreenId) => {
+    const publicScreens: ScreenId[] = ['home', 'login', 'register', 'forgot-password'];
+    const requiresAuthentication = !publicScreens.includes(screen);
+
+    if (requiresAuthentication && !user) {
+      setToastMessage('Please log in or sign up to access the dashboard.');
+      setCurrentScreen('login');
+      window.location.hash = 'login';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setCurrentScreen(screen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (['home', 'login', 'register', 'forgot-password'].includes(screen)) {
+    if (publicScreens.includes(screen)) {
       window.location.hash = screen;
+    } else {
+      window.history.replaceState(null, '', window.location.pathname);
     }
   };
 
@@ -146,7 +149,7 @@ export default function App() {
       // Ignore
     }
     navigateTo('market-charts');
-    showToast(`Welcome to MarketPulse, ${loggedInUser.name}!`);
+    showToast(`Welcome to Smart Market, ${loggedInUser.name}!`);
   };
 
   const handleLogout = () => {
@@ -160,10 +163,6 @@ export default function App() {
     showToast('Signed out of terminal session. Please sign in to resume.');
   };
 
-  const handleContinueAsGuest = () => {
-    navigateTo('market-charts');
-    showToast('Continuing workstation exploration as Guest Analyst');
-  };
 
   // Global keybindings (Search, Alert)
   useEffect(() => {
@@ -211,8 +210,12 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    navigateTo('market-charts');
-    showToast('TradingView Market Charts Workstation Loaded');
+    if (!user) {
+      navigateTo('login');
+      return;
+    }
+    navigateTo('dashboard');
+    showToast('Smart Market dashboard loaded');
   };
 
   return (
@@ -230,14 +233,12 @@ export default function App() {
         <LoginPage
           onLoginSuccess={handleLoginSuccess}
           onNavigate={navigateTo}
-          onContinueAsGuest={handleContinueAsGuest}
         />
       ) : currentScreen === 'register' ? (
         /* 2. Dedicated Full-Screen Register Webpage */
         <RegisterPage
           onRegisterSuccess={handleLoginSuccess}
           onNavigate={navigateTo}
-          onContinueAsGuest={handleContinueAsGuest}
         />
       ) : currentScreen === 'forgot-password' ? (
         /* 3. Dedicated Full-Screen Forgot Password Webpage */
@@ -252,7 +253,6 @@ export default function App() {
           onSelectStock={handleOpenStockDetails}
           user={user}
           onOpenAuth={handleOpenAuth}
-          onOpenUserProfile={() => setIsProfileModalOpen(true)}
         />
       ) : (
         /* 5. Institutional Workstation Layout (Header + Sidebar + Active View) */
@@ -277,6 +277,7 @@ export default function App() {
             onNavigate={navigateTo}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={user}
           />
 
           {/* Main Content Area */}
@@ -364,7 +365,7 @@ export default function App() {
                 </button>
                 <span className="text-outline">·</span>
                 <p className="font-mono-xs text-mono-xs text-outline">
-                  PipPulse Forex Trading · Precision Technical Analysis &amp; Currency Research.
+                  Smart Market Trading · Precision Technical Analysis &amp; Currency Research.
                 </p>
               </div>
               <div className="flex items-center gap-space-md font-mono-xs text-mono-xs text-outline">
@@ -374,7 +375,7 @@ export default function App() {
                 </span>
                 <span>TradingView Embed Active</span>
                 <span>UTC+00:00</span>
-                <span className="text-primary font-bold">PipPulse Dark Theme</span>
+                <span className="text-primary font-bold">Smart Market Dark Theme</span>
               </div>
             </footer>
           </div>
