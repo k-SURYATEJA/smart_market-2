@@ -201,8 +201,9 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    navigateTo('market-charts');
-    showToast('TradingView Market Charts Workstation Loaded');
+    // The public demo dashboard is available without requiring an account.
+    navigateTo('dashboard');
+    showToast('Smart Market dashboard loaded');
   };
 
   return (
