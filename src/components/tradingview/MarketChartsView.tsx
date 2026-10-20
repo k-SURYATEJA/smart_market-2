@@ -73,7 +73,8 @@ export const MarketChartsView: React.FC = () => {
   return (
     <div className="flex flex-col w-full gap-space-md">
       {/* Header bar with pure black & yellow branding */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm bg-surface-container rounded-xl p-space-md border border-outline-variant/30">
+      <div className="flex flex-col gap-space-md bg-surface-container rounded-xl p-space-md border border-outline-variant/30">
+        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-space-md">
         <div>
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-[24px]">candlestick_chart</span>
@@ -152,13 +153,14 @@ export const MarketChartsView: React.FC = () => {
             ))}
           </div>
         </div>
+        </div>
       </div>
 
       {/* Market Selector & Quick Ticker Carousel */}
       <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-space-sm">
         {/* Category Pills & Search */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-1">
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] items-center gap-space-sm">
+          <div className="flex flex-wrap items-center gap-1 overflow-x-auto scrollbar-none py-1">
             {categories.map(cat => (
               <button
                 key={cat}
@@ -227,7 +229,7 @@ export const MarketChartsView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
           {/* Chart 1 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-2">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-primary">Chart 1: {activeSymbol1}</span>
               <select
                 value={activeSymbol1}
@@ -253,7 +255,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Chart 2 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-2">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-secondary">Chart 2: {activeSymbol2}</span>
               <select
                 value={activeSymbol2}
@@ -283,7 +285,7 @@ export const MarketChartsView: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
           {/* Quad 1 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-primary">{activeSymbol1}</span>
               <select
                 value={activeSymbol1}
@@ -308,7 +310,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 2 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-primary">{activeSymbol2}</span>
               <select
                 value={activeSymbol2}
@@ -333,7 +335,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 3 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-primary">{activeSymbol3}</span>
               <select
                 value={activeSymbol3}
@@ -358,7 +360,7 @@ export const MarketChartsView: React.FC = () => {
 
           {/* Quad 4 */}
           <div className="bg-surface-container rounded-xl p-space-sm border border-outline-variant/30 flex flex-col gap-1">
-            <div className="flex items-center justify-between px-2 pt-1 font-mono-xs text-mono-xs">
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(150px,1fr)] items-center gap-3 px-2 pt-1 font-mono-xs text-mono-xs">
               <span className="font-bold text-primary">{activeSymbol4}</span>
               <select
                 value={activeSymbol4}

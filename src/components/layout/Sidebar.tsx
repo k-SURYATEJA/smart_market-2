@@ -6,6 +6,7 @@ interface SidebarProps {
   onNavigate: (screen: ScreenId) => void;
   isOpen: boolean;
   onClose: () => void;
+  user: { name: string } | null;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -13,6 +14,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
   isOpen,
   onClose,
+  user,
 }) => {
   const [technicalOpen, setTechnicalOpen] = useState<boolean>(true);
   const [fundamentalOpen, setFundamentalOpen] = useState<boolean>(true);
@@ -85,19 +87,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="px-space-md pt-2 pb-1 text-[10px] font-mono-xs font-bold uppercase tracking-wider text-outline">
               Markets &amp; Workstation
             </div>
-
-            {/* Landing Home Page */}
-            <button
-              type="button"
-              onClick={() => handleLinkClick('home')}
-              className={`flex items-center gap-space-sm px-space-md py-2 rounded-lg text-left transition-all w-full cursor-pointer ${
-                isScreenActive('home') ? activeLinkClass : inactiveLinkClass
-              }`}
-            >
-              <span className="material-symbols-outlined text-[18px]">home</span>
-              <span className="font-label-md text-label-md flex-1">Home / Overview</span>
-              <span className="text-[10px] font-mono-xs text-outline">Landing</span>
-            </button>
 
             {/* TradingView Market Charts (Flagship) */}
             <button
@@ -276,17 +265,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Bottom utility links */}
         <div className="p-space-xs border-t border-outline-variant/30 flex flex-col gap-0.5 shrink-0 bg-surface-container-low">
-          <button
-            type="button"
-            onClick={() => handleLinkClick('login')}
-            className={`flex items-center gap-space-sm px-space-md py-2 rounded-lg text-left transition-all w-full cursor-pointer ${
-              isScreenActive('login') ? activeLinkClass : inactiveLinkClass
-            }`}
-          >
-            <span className="material-symbols-outlined text-[18px]">account_circle</span>
-            <span className="font-label-md text-label-md flex-1">Analyst Login Page</span>
-            <span className="text-[9px] font-mono-xs text-primary font-bold uppercase">Portal</span>
-          </button>
+          {!user && (
+            <button
+              type="button"
+              onClick={() => handleLinkClick('login')}
+              className={`flex items-center gap-space-sm px-space-md py-2 rounded-lg text-left transition-all w-full cursor-pointer ${
+                isScreenActive('login') ? activeLinkClass : inactiveLinkClass
+              }`}
+            >
+              <span className="material-symbols-outlined text-[18px]">account_circle</span>
+              <span className="font-label-md text-label-md flex-1">Analyst Login Page</span>
+              <span className="text-[9px] font-mono-xs text-primary font-bold uppercase">Portal</span>
+            </button>
+          )}
 
           <button
             type="button"

@@ -52,17 +52,7 @@ export default function App() {
     } catch {
       // Fallback
     }
-    // Default Pro Analyst profile for seamless testing and demonstration
-    return {
-      id: 'usr-demo-01',
-      name: 'Alex Morgan',
-      email: 'alex.morgan@marketpulse.io',
-      role: 'Senior Market Technician (CMT)',
-      specialty: 'Equities & Swing Technicals',
-      plan: 'Pro Terminal',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-      joinedDate: 'October 2024',
-    };
+    return null;
   });
 
   // Modals state
@@ -276,6 +266,7 @@ export default function App() {
             onNavigate={navigateTo}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={user}
           />
 
           {/* Main Content Area */}
