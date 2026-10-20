@@ -112,10 +112,23 @@ export default function App() {
   }, []);
 
   const navigateTo = (screen: ScreenId) => {
+    const publicScreens: ScreenId[] = ['home', 'login', 'register', 'forgot-password'];
+    const requiresAuthentication = !publicScreens.includes(screen);
+
+    if (requiresAuthentication && !user) {
+      setToastMessage('Please log in or sign up to access the dashboard.');
+      setCurrentScreen('login');
+      window.location.hash = 'login';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setCurrentScreen(screen);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (['home', 'login', 'register', 'forgot-password'].includes(screen)) {
+    if (publicScreens.includes(screen)) {
       window.location.hash = screen;
+    } else {
+      window.history.replaceState(null, '', window.location.pathname);
     }
   };
 
@@ -150,10 +163,6 @@ export default function App() {
     showToast('Signed out of terminal session. Please sign in to resume.');
   };
 
-  const handleContinueAsGuest = () => {
-    navigateTo('market-charts');
-    showToast('Continuing workstation exploration as Guest Analyst');
-  };
 
   // Global keybindings (Search, Alert)
   useEffect(() => {
@@ -201,7 +210,10 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    // The public demo dashboard is available without requiring an account.
+    if (!user) {
+      navigateTo('login');
+      return;
+    }
     navigateTo('dashboard');
     showToast('Smart Market dashboard loaded');
   };
@@ -221,14 +233,12 @@ export default function App() {
         <LoginPage
           onLoginSuccess={handleLoginSuccess}
           onNavigate={navigateTo}
-          onContinueAsGuest={handleContinueAsGuest}
         />
       ) : currentScreen === 'register' ? (
         /* 2. Dedicated Full-Screen Register Webpage */
         <RegisterPage
           onRegisterSuccess={handleLoginSuccess}
           onNavigate={navigateTo}
-          onContinueAsGuest={handleContinueAsGuest}
         />
       ) : currentScreen === 'forgot-password' ? (
         /* 3. Dedicated Full-Screen Forgot Password Webpage */

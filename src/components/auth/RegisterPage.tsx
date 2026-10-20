@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ScreenId, UserProfile } from '../../types/market';
 
-interface RegisterPageProps { onRegisterSuccess: (user: UserProfile) => void; onNavigate: (screen: ScreenId) => void; onContinueAsGuest: () => void; }
+ interface RegisterPageProps { onRegisterSuccess: (user: UserProfile) => void; onNavigate: (screen: ScreenId) => void; }
 
-export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, onNavigate, onContinueAsGuest }) => {
+export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, onNavigate }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +45,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, o
             <button type="submit" disabled={isLoading} className="mt-1 rounded-lg bg-primary py-3 text-sm font-bold text-black transition hover:bg-primary-container disabled:opacity-60">{isLoading ? 'Creating account...' : 'Create account'}</button>
           </form>
           <div className="mt-6 border-t border-white/10 pt-5 text-center text-sm text-slate-400">Already have an account? <button type="button" onClick={() => onNavigate('login')} className="font-semibold text-primary hover:underline">Log in</button></div>
-          <button type="button" onClick={onContinueAsGuest} className="mt-4 w-full text-xs text-slate-500 hover:text-white">Continue as guest</button>
+          
         </div></section>
       </main>
       <footer className="px-6 py-5 text-center text-xs text-slate-500">© 2026 Smart Market · Privacy · Terms</footer>

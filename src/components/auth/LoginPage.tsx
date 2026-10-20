@@ -4,10 +4,9 @@ import { ScreenId, UserProfile } from '../../types/market';
 interface LoginPageProps {
   onLoginSuccess: (user: UserProfile) => void;
   onNavigate: (screen: ScreenId) => void;
-  onContinueAsGuest: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate, onContinueAsGuest }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -63,7 +62,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
               <button type="submit" disabled={isLoading} className="rounded-lg bg-primary py-3 text-sm font-bold text-black transition hover:bg-primary-container disabled:opacity-60">{isLoading ? 'Logging in...' : 'Log in'}</button>
             </form>
             <div className="mt-7 border-t border-white/10 pt-6 text-center text-sm text-slate-400">Don&apos;t have an account? <button type="button" onClick={() => onNavigate('register')} className="font-semibold text-primary hover:underline">Sign up</button></div>
-            <button type="button" onClick={onContinueAsGuest} className="mt-5 w-full text-xs text-slate-500 hover:text-white">Continue as guest</button>
           </div>
         </section>
       </main>
