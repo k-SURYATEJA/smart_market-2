@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StockData } from '../../types/market';
 import { TradingViewTechnicalAnalysis } from '../tradingview/TradingViewTechnicalAnalysis';
-import { TradingViewSymbolInfo } from '../tradingview/TradingViewSymbolInfo';
 import { TradingViewProfile } from '../tradingview/TradingViewProfile';
 
 interface StockLiveDetailsModalProps {
@@ -29,7 +28,8 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
   onSelectStock,
   onOpenFullDeepDive,
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'shareholding' | 'technicals'>('overview');
+  const [activeTab, setActiveTab] = useState<'profile' | 'financials' | 'shareholding' | 'technicals'>('profile');
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Close on Escape key
   useEffect(() => {
@@ -49,58 +49,65 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-6xl max-h-[92vh] bg-[#0c101a] border border-primary/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden relative"
+        className={`w-full bg-[#0a0f1d] border border-white/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden relative transition-all duration-200 ${
+          isFullscreen ? 'w-full h-full max-w-none max-h-none rounded-none' : 'max-w-7xl h-[94vh]'
+        }`}
         onClick={e => e.stopPropagation()}
       >
-        {/* Top Accent Line */}
-        <div className="h-1 w-full bg-gradient-to-r from-primary via-[#ff9b42] to-secondary" />
+        {/* Top Accent Strip */}
+        <div className="h-1.5 w-full bg-gradient-to-r from-[#FF7900] via-[#ffaa40] to-[#24c78b] shrink-0" />
 
-        {/* Modal Header */}
-        <div className="px-5 py-4 bg-[#111726] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary font-black text-lg">
+        {/* 1. COMPACT, HIGH-VISIBILITY HEADER */}
+        <div className="px-5 py-3.5 bg-[#111827] border-b border-white/15 flex flex-wrap items-center justify-between gap-4 shrink-0">
+          {/* Left: Identity */}
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF7900] to-[#d96200] flex items-center justify-center text-white font-black text-xl shadow-[0_0_16px_rgba(255,121,0,0.35)] shrink-0">
               {stock.symbol.slice(0, 3)}
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-lg font-black text-white tracking-tight">
+                <h2 className="text-xl font-black text-white tracking-tight">
                   {stock.name}
                 </h2>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-white/10 text-white">
+                <span className="px-2 py-0.5 rounded-md text-xs font-mono font-bold bg-white/10 text-white border border-white/15">
                   {stock.symbol}
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-primary/20 text-primary border border-primary/30">
+                <span className="px-2 py-0.5 rounded-md text-xs font-mono font-bold bg-[#FF7900]/20 text-[#FF9B42] border border-[#FF7900]/40">
                   {tvSymbol}
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-sans text-slate-400 bg-white/5">
+                <span className="px-2.5 py-0.5 rounded-md text-xs font-medium text-slate-300 bg-white/10 border border-white/10">
                   {stock.sector}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-2">
-                <span>Exchange: <strong className="text-white">{stock.exchange}</strong></span>
+              <div className="text-xs text-slate-300 mt-1 flex flex-wrap items-center gap-2.5">
+                <span>Exchange: <strong className="text-white font-semibold">{stock.exchange}</strong></span>
                 <span>•</span>
-                <span>Market Cap: <strong className="text-white">{stock.marketCapCr}</strong> ({stock.marketCapUsd})</span>
-              </p>
+                <span>Market Cap: <strong className="text-[#FF9B42] font-semibold">{stock.marketCapCr}</strong></span>
+                <span>•</span>
+                <span>Series: <strong className="text-white font-semibold">{stock.series}</strong></span>
+              </div>
             </div>
           </div>
 
-          {/* Right Header: Price & Actions */}
-          <div className="flex items-center gap-3">
+          {/* Right: Live Price & Controls */}
+          <div className="flex items-center gap-4">
             <div className="text-right">
-              <div className="text-xl font-black text-white font-mono">
+              <div className="text-2xl font-black text-white font-mono tracking-tight">
                 ₹{stock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </div>
               <div
-                className={`text-xs font-mono font-semibold flex items-center justify-end gap-1 ${
-                  stock.change >= 0 ? 'text-secondary' : 'text-tertiary'
+                className={`text-xs font-mono font-bold flex items-center justify-end gap-1.5 mt-0.5 ${
+                  stock.change >= 0 ? 'text-[#24c78b]' : 'text-[#ff4d5a]'
                 }`}
               >
                 <span>{stock.change >= 0 ? '▲ +' : '▼ '}₹{Math.abs(stock.change).toFixed(2)}</span>
-                <span>({stock.change >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%)</span>
+                <span className="px-1.5 py-0.2 rounded bg-white/10">
+                  {stock.change >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                </span>
               </div>
             </div>
 
@@ -109,105 +116,111 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
               href={tradingViewWebUrl}
               target="_blank"
               rel="noopener noreferrer"
-              title="Open real-time interactive quote on in.tradingview.com"
-              className="px-3 py-2 rounded-xl bg-[#1e293b] hover:bg-[#334155] border border-white/15 text-xs text-slate-200 font-semibold transition-all flex items-center gap-1.5 shadow-sm hover:text-white"
+              title="Open full interactive analysis on in.tradingview.com"
+              className="px-3.5 py-2 rounded-xl bg-[#1e293b] hover:bg-[#334155] border border-white/20 text-xs text-white font-bold transition-all flex items-center gap-1.5 shadow-sm hover:border-[#FF7900]"
             >
-              <svg className="w-3.5 h-3.5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-4 h-4 text-[#FF7900]" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
               </svg>
-              <span>TradingView Live</span>
-              <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-              </svg>
+              <span>TradingView Live ↗</span>
             </a>
+
+            {/* Toggle Fullscreen */}
+            <button
+              type="button"
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              title={isFullscreen ? 'Exit Fullscreen' : 'Expand Fullscreen'}
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                {isFullscreen ? 'fullscreen_exit' : 'fullscreen'}
+              </span>
+            </button>
 
             {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
               aria-label="Close modal"
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-xl text-slate-300 hover:text-white hover:bg-rose-500/20 hover:text-rose-400 transition-colors"
             >
               <span className="material-symbols-outlined text-[22px]">close</span>
             </button>
           </div>
         </div>
 
-        {/* Live TradingView Symbol Info Bar */}
-        <div className="px-5 pt-3 pb-1 bg-[#090d16] border-b border-white/5">
-          <TradingViewSymbolInfo symbol={tvSymbol} />
-        </div>
-
-        {/* Navigation Tabs & Stock Switcher */}
-        <div className="px-5 py-2.5 bg-[#0e1422] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 shrink-0">
-          {/* Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto">
+        {/* 2. NAVIGATION BAR & QUICK ASSET SWITCHER */}
+        <div className="px-5 py-2.5 bg-[#0e1526] border-b border-white/15 flex flex-wrap items-center justify-between gap-3 shrink-0">
+          {/* In-Depth Navigation Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto py-0.5">
             <button
               type="button"
-              onClick={() => setActiveTab('overview')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                activeTab === 'overview'
-                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(255,121,0,0.3)]'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => setActiveTab('profile')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                activeTab === 'profile'
+                  ? 'bg-[#FF7900] text-black shadow-[0_0_14px_rgba(255,121,0,0.4)]'
+                  : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <span className="material-symbols-outlined text-[16px]">business</span>
-              <span>Company Profile &amp; Segments</span>
+              <span className="material-symbols-outlined text-[17px]">corporate_fare</span>
+              <span>1. Corporate Profile &amp; Segments</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('financials')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === 'financials'
-                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(255,121,0,0.3)]'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#FF7900] text-black shadow-[0_0_14px_rgba(255,121,0,0.4)]'
+                  : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <span className="material-symbols-outlined text-[16px]">analytics</span>
-              <span>Financials, Ratios &amp; Valuation</span>
+              <span className="material-symbols-outlined text-[17px]">query_stats</span>
+              <span>2. Financials, Ratios &amp; Statements</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('shareholding')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === 'shareholding'
-                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(255,121,0,0.3)]'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#FF7900] text-black shadow-[0_0_14px_rgba(255,121,0,0.4)]'
+                  : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <span className="material-symbols-outlined text-[16px]">pie_chart</span>
-              <span>Shareholding &amp; Analyst Targets</span>
+              <span className="material-symbols-outlined text-[17px]">pie_chart</span>
+              <span>3. Shareholding &amp; Analyst Targets</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('technicals')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === 'technicals'
-                  ? 'bg-primary text-black shadow-[0_0_10px_rgba(255,121,0,0.3)]'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#FF7900] text-black shadow-[0_0_14px_rgba(255,121,0,0.4)]'
+                  : 'text-slate-300 hover:text-white hover:bg-white/10'
               }`}
             >
-              <span className="material-symbols-outlined text-[16px]">speed</span>
-              <span>TradingView Technical Sentiment</span>
+              <span className="material-symbols-outlined text-[17px]">speed</span>
+              <span>4. TradingView Technical Sentiment</span>
             </button>
           </div>
 
-          {/* Quick Stock Switcher Pills */}
+          {/* Quick Asset Switcher */}
           {allStocks.length > 0 && onSelectStock && (
-            <div className="flex items-center gap-1 overflow-x-auto max-w-sm py-0.5">
-              <span className="text-[10px] uppercase font-bold text-slate-500 mr-1 shrink-0">Switch:</span>
+            <div className="flex items-center gap-1.5 overflow-x-auto py-1">
+              <span className="text-[11px] font-bold text-slate-400 mr-1 shrink-0 uppercase tracking-wider">
+                Switch Asset:
+              </span>
               {allStocks.map(s => (
                 <button
                   key={s.symbol}
                   type="button"
                   onClick={() => onSelectStock(s)}
-                  className={`px-2 py-1 rounded text-[11px] font-mono font-bold shrink-0 transition-all ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all cursor-pointer ${
                     s.symbol === stock.symbol
-                      ? 'bg-primary/25 text-primary border border-primary/50'
-                      : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
+                      ? 'bg-[#FF7900] text-black shadow-[0_0_10px_rgba(255,121,0,0.35)]'
+                      : 'bg-[#1e293b] text-slate-300 hover:text-white hover:bg-[#334155] border border-white/10'
                   }`}
                 >
                   {s.symbol}
@@ -217,69 +230,75 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
           )}
         </div>
 
-        {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-4">
+        {/* 3. MAIN SCROLLABLE CONTENT BODY (CLEAR & FULLY VISIBLE) */}
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 flex flex-col gap-6 bg-[#090e1c]">
           
-          {/* TAB 1: COMPANY PROFILE & CORE SEGMENTS */}
-          {activeTab === 'overview' && (
-            <div className="flex flex-col gap-4">
-              {/* Detailed Profile Box */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-4">
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary text-[20px]">corporate_fare</span>
-                    <h3 className="font-bold text-white text-base">Corporate Overview &amp; Business Profile</h3>
+          {/* TAB 1: CORPORATE PROFILE & BUSINESS SEGMENTS */}
+          {activeTab === 'profile' && (
+            <div className="flex flex-col gap-5 max-w-6xl mx-auto w-full">
+              {/* Highlight Banner */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                  <div className="flex items-center gap-2.5">
+                    <span className="material-symbols-outlined text-[#FF7900] text-[24px]">apartment</span>
+                    <h3 className="text-lg font-bold text-white tracking-tight">
+                      About {stock.name}
+                    </h3>
                   </div>
-                  <span className="px-2.5 py-1 rounded bg-white/5 font-mono text-xs text-slate-300">
-                    Series: {stock.series} • Face Value: ₹{stock.faceValue.toFixed(2)}
+                  <span className="px-3 py-1 rounded-lg bg-white/10 font-mono text-xs text-slate-200 border border-white/10 font-bold">
+                    NSE / BSE Listed • {stock.sector}
                   </span>
                 </div>
 
-                <p className="text-slate-300 leading-relaxed text-sm">
+                <p className="text-slate-200 leading-relaxed text-sm sm:text-base">
                   {stock.profile}
                 </p>
 
-                {/* Alpha Signal Insight */}
-                <div className="p-4 rounded-xl bg-primary/10 border border-primary/30 flex items-start gap-3">
-                  <span className="material-symbols-outlined text-primary text-[22px] mt-0.5 shrink-0">insights</span>
+                {/* Research Thesis Box */}
+                <div className="p-4 rounded-xl bg-gradient-to-r from-[#FF7900]/15 to-transparent border border-[#FF7900]/35 flex items-start gap-3 mt-1">
+                  <span className="material-symbols-outlined text-[#FF7900] text-[24px] mt-0.5 shrink-0">psychology</span>
                   <div>
-                    <h4 className="font-bold text-primary text-xs uppercase tracking-wider mb-1">
-                      Institutional Research Thesis
+                    <h4 className="font-bold text-[#FF9B42] text-xs uppercase tracking-wider mb-1">
+                      Institutional Research Thesis &amp; Alpha Signal
                     </h4>
-                    <p className="text-xs text-slate-200 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
                       {stock.alphaSignalSummary}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Core Business Segments */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#FF7900]" />
-                    Revenue &amp; Business Segments Breakdown
-                  </h3>
-                  <span className="text-xs text-slate-400">Total Contribution: 100%</span>
+              {/* Core Business Segments Breakdown */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                <div className="flex items-center justify-between pb-2 border-b border-white/15">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#24c78b] text-[22px]">category</span>
+                    <h3 className="text-base font-bold text-white tracking-tight">
+                      Core Business Segments &amp; Revenue Contribution
+                    </h3>
+                  </div>
+                  <span className="text-xs text-slate-300 font-mono">Total Share: 100%</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {stock.segments.map((seg, i) => (
-                    <div key={i} className="bg-black/30 border border-white/10 rounded-xl p-4 flex flex-col justify-between gap-3">
+                    <div key={i} className="bg-[#0b1020] border border-white/15 rounded-xl p-4 flex flex-col justify-between gap-3 shadow-md">
                       <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <span className="material-symbols-outlined text-primary text-[22px]">{seg.icon || 'store'}</span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-[#FF7900]/15 border border-[#FF7900]/30 flex items-center justify-center text-[#FF7900]">
+                            <span className="material-symbols-outlined text-[20px]">{seg.icon || 'storefront'}</span>
+                          </div>
                           <div>
                             <span className="font-bold text-white text-sm block">{seg.name}</span>
-                            <span className="text-[11px] text-slate-400">{seg.description}</span>
+                            <span className="text-xs text-slate-400">{seg.description}</span>
                           </div>
                         </div>
-                        <span className="font-mono font-black text-primary text-lg">{seg.sharePercent}%</span>
+                        <span className="font-mono font-black text-[#FF7900] text-xl">{seg.sharePercent}%</span>
                       </div>
 
-                      <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-primary to-[#ff9b42] rounded-full"
+                          className="h-full bg-gradient-to-r from-[#FF7900] to-[#24c78b] rounded-full"
                           style={{ width: `${seg.sharePercent}%` }}
                         />
                       </div>
@@ -288,103 +307,125 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
                 </div>
               </div>
 
-              {/* TradingView Company Profile Widget */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-white text-sm flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary text-[18px]">verified</span>
-                    <span>Live TradingView Verified Company Info</span>
-                  </h3>
-                  <span className="text-xs text-slate-500 font-mono">in.tradingview.com data</span>
+              {/* TradingView Verified Corporate Data */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                <div className="flex items-center justify-between pb-2 border-b border-white/15">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#FF7900] text-[20px]">verified</span>
+                    <h3 className="text-base font-bold text-white">
+                      Live TradingView Corporate Profile Data
+                    </h3>
+                  </div>
+                  <span className="text-xs text-slate-400 font-mono">in.tradingview.com live stream</span>
                 </div>
-                <TradingViewProfile symbol={tvSymbol} height={420} />
+                <div className="rounded-xl overflow-hidden border border-white/10">
+                  <TradingViewProfile symbol={tvSymbol} height={420} />
+                </div>
               </div>
             </div>
           )}
 
           {/* TAB 2: FINANCIALS, RATIOS & VALUATION */}
           {activeTab === 'financials' && (
-            <div className="flex flex-col gap-4">
-              {/* Primary Key Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">P/E Ratio</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">{stock.peRatio.toFixed(2)}x</span>
-                  <span className="text-[10px] text-slate-500">Industry: {stock.indPeRatio.toFixed(2)}x</span>
+            <div className="flex flex-col gap-5 max-w-6xl mx-auto w-full">
+              {/* Key Valuation Grid (8 High-Impact Cards) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">P/E Ratio</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">{stock.peRatio.toFixed(2)}x</span>
+                  <span className="text-xs text-slate-300 font-mono mt-0.5 block">Industry: {stock.indPeRatio.toFixed(2)}x</span>
                 </div>
 
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">P/B Ratio</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">{stock.pbRatio.toFixed(2)}x</span>
-                  <span className="text-[10px] text-primary font-semibold">{stock.pbEvaluation}</span>
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">P/B Ratio</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">{stock.pbRatio.toFixed(2)}x</span>
+                  <span className="text-xs text-[#24c78b] font-bold mt-0.5 block">{stock.pbEvaluation}</span>
                 </div>
 
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">Book Value</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">₹{stock.bookValue.toFixed(2)}</span>
-                  <span className="text-[10px] text-slate-500">Per Share</span>
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">Book Value / Share</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">₹{stock.bookValue.toFixed(2)}</span>
+                  <span className="text-xs text-slate-300 font-mono mt-0.5 block">Face Value: ₹{stock.faceValue.toFixed(2)}</span>
                 </div>
 
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">EPS (TTM)</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">₹{stock.epsTtm.toFixed(2)}</span>
-                  <span className="text-[10px] text-secondary font-semibold">{stock.epsGrowthYoY}</span>
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">EPS (TTM)</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">₹{stock.epsTtm.toFixed(2)}</span>
+                  <span className="text-xs text-[#24c78b] font-bold mt-0.5 block">{stock.epsGrowthYoY}</span>
                 </div>
 
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">Dividend Yield</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">{stock.dividendYield.toFixed(2)}%</span>
-                  <span className="text-[10px] text-slate-500">{stock.dividendPerShare}</span>
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">Dividend Yield</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">{stock.dividendYield.toFixed(2)}%</span>
+                  <span className="text-xs text-slate-300 font-mono mt-0.5 block">{stock.dividendPerShare}</span>
                 </div>
 
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-3.5">
-                  <span className="text-slate-400 block text-[11px]">Beta (1-Year)</span>
-                  <span className="text-white font-mono font-bold text-lg mt-0.5 block">{stock.beta1Y}</span>
-                  <span className="text-[10px] text-emerald-400">{stock.betaVolatility}</span>
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">Beta Volatility (1Y)</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">{stock.beta1Y}</span>
+                  <span className="text-xs text-[#FF9B42] font-semibold mt-0.5 block">{stock.betaVolatility}</span>
+                </div>
+
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">Day High / Low</span>
+                  <span className="text-white font-mono font-bold text-lg mt-1 block">₹{stock.dayHigh.toFixed(2)}</span>
+                  <span className="text-xs text-slate-400 font-mono mt-0.5 block">Low: ₹{stock.dayLow.toFixed(2)}</span>
+                </div>
+
+                <div className="bg-[#131b2e] border border-white/15 rounded-xl p-4 shadow-md">
+                  <span className="text-slate-400 block text-xs font-semibold">Session Volume</span>
+                  <span className="text-white font-mono font-black text-2xl mt-1 block">{stock.volume}</span>
+                  <span className="text-xs text-slate-300 font-mono mt-0.5 block">Shares Traded</span>
                 </div>
               </div>
 
-              {/* 52-Week Range Position */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-4">
-                <div className="flex justify-between items-center mb-1.5 text-xs text-slate-400 font-mono">
-                  <span>52-Week Low: <strong className="text-white">₹{stock.week52Low.toFixed(2)}</strong></span>
-                  <span className="font-semibold text-primary font-sans">{stock.rangePositionPercent}% of 52W High</span>
-                  <span>52-Week High: <strong className="text-white">₹{stock.week52High.toFixed(2)}</strong></span>
+              {/* 52-Week Range Position Visual Bar */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl flex flex-col gap-2">
+                <div className="flex justify-between items-center text-xs sm:text-sm text-slate-300 font-mono">
+                  <span>52-Week Low: <strong className="text-white font-bold">₹{stock.week52Low.toFixed(2)}</strong></span>
+                  <span className="font-bold text-[#FF7900] font-sans">
+                    {stock.rangePositionPercent}% of 52-Week Range
+                  </span>
+                  <span>52-Week High: <strong className="text-white font-bold">₹{stock.week52High.toFixed(2)}</strong></span>
                 </div>
-                <div className="w-full bg-black/40 h-2.5 rounded-full overflow-hidden border border-white/10">
+                <div className="w-full bg-black/50 h-3.5 rounded-full overflow-hidden border border-white/15 p-0.5">
                   <div
-                    className="bg-gradient-to-r from-primary to-secondary h-full rounded-full"
+                    className="bg-gradient-to-r from-[#FF7900] via-[#ffaa40] to-[#24c78b] h-full rounded-full transition-all duration-300"
                     style={{ width: `${stock.rangePositionPercent}%` }}
                   />
                 </div>
               </div>
 
-              {/* Multi-Year Financial Performance Table */}
+              {/* Annual Income Statement Table */}
               {stock.financials && stock.financials.length > 0 && (
-                <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-3">
-                  <h4 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary text-[18px]">table_chart</span>
-                    <span>Annual Income Statement &amp; Operating Margins (₹ Crores)</span>
-                  </h4>
+                <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-3.5">
+                  <div className="flex items-center justify-between pb-2 border-b border-white/15">
+                    <h4 className="font-bold text-white text-base flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#FF7900] text-[20px]">table_rows</span>
+                      <span>Annual Financial Statements (Revenue, EBITDA &amp; Net Profit in ₹ Crores)</span>
+                    </h4>
+                    <span className="text-xs text-slate-400 font-mono">Audited Standalone/Consolidated</span>
+                  </div>
+
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs font-mono">
+                    <table className="w-full text-left text-xs sm:text-sm font-mono">
                       <thead>
-                        <tr className="text-slate-400 border-b border-white/10">
-                          <th className="pb-2">Fiscal Year</th>
-                          <th className="pb-2 text-right">Revenue</th>
-                          <th className="pb-2 text-right">EBITDA</th>
-                          <th className="pb-2 text-right">Net Profit</th>
-                          <th className="pb-2 text-right">Margin %</th>
+                        <tr className="bg-[#1e293b] text-white font-bold border-b border-white/20">
+                          <th className="py-3 px-4 rounded-l-lg font-sans">Fiscal Year</th>
+                          <th className="py-3 px-4 text-right">Revenue (₹ Cr)</th>
+                          <th className="py-3 px-4 text-right">EBITDA (₹ Cr)</th>
+                          <th className="py-3 px-4 text-right">Net Profit (₹ Cr)</th>
+                          <th className="py-3 px-4 text-right rounded-r-lg">Operating Margin</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-white/5">
+                      <tbody className="divide-y divide-white/10 text-slate-200">
                         {stock.financials.map((fin, i) => (
                           <tr key={i} className="hover:bg-white/5 transition-colors">
-                            <td className="py-2.5 font-bold text-white font-sans">{fin.year}</td>
-                            <td className="py-2.5 text-right font-medium text-slate-200">₹{fin.revenueCr.toLocaleString('en-IN')} Cr</td>
-                            <td className="py-2.5 text-right text-slate-300">₹{fin.ebitdaCr.toLocaleString('en-IN')} Cr</td>
-                            <td className="py-2.5 text-right font-bold text-emerald-400">₹{fin.netProfitCr.toLocaleString('en-IN')} Cr</td>
-                            <td className="py-2.5 text-right font-bold text-primary">{fin.marginPercent.toFixed(2)}%</td>
+                            <td className="py-3 px-4 font-bold text-white font-sans">{fin.year}</td>
+                            <td className="py-3 px-4 text-right font-medium">₹{fin.revenueCr.toLocaleString('en-IN')} Cr</td>
+                            <td className="py-3 px-4 text-right text-slate-300">₹{fin.ebitdaCr.toLocaleString('en-IN')} Cr</td>
+                            <td className="py-3 px-4 text-right font-bold text-[#24c78b]">₹{fin.netProfitCr.toLocaleString('en-IN')} Cr</td>
+                            <td className="py-3 px-4 text-right font-bold text-[#FF9B42]">{fin.marginPercent.toFixed(2)}%</td>
                           </tr>
                         ))}
                       </tbody>
@@ -393,32 +434,36 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
                 </div>
               )}
 
-              {/* Quarterly Trend Table */}
+              {/* Quarterly Earnings Disclosures */}
               {stock.quarterly && stock.quarterly.length > 0 && (
-                <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-3">
-                  <h4 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary text-[18px]">history</span>
-                    <span>Quarterly Earnings Disclosures</span>
-                  </h4>
+                <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-3.5">
+                  <div className="flex items-center justify-between pb-2 border-b border-white/15">
+                    <h4 className="font-bold text-white text-base flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#24c78b] text-[20px]">calendar_month</span>
+                      <span>Quarterly Earnings Disclosures (Recent Trailing Quarters)</span>
+                    </h4>
+                    <span className="text-xs text-slate-400 font-mono">Quarterly Filings</span>
+                  </div>
+
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs font-mono">
+                    <table className="w-full text-left text-xs sm:text-sm font-mono">
                       <thead>
-                        <tr className="text-slate-400 border-b border-white/10">
-                          <th className="pb-2">Quarter</th>
-                          <th className="pb-2 text-right">Revenue</th>
-                          <th className="pb-2 text-right">Net Profit</th>
-                          <th className="pb-2 text-right">Margin %</th>
-                          <th className="pb-2 text-right">YoY Growth</th>
+                        <tr className="bg-[#1e293b] text-white font-bold border-b border-white/20">
+                          <th className="py-3 px-4 rounded-l-lg font-sans">Quarter</th>
+                          <th className="py-3 px-4 text-right">Revenue (₹ Cr)</th>
+                          <th className="py-3 px-4 text-right">Net Profit (₹ Cr)</th>
+                          <th className="py-3 px-4 text-right">Margin %</th>
+                          <th className="py-3 px-4 text-right rounded-r-lg">YoY Growth</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-white/5">
+                      <tbody className="divide-y divide-white/10 text-slate-200">
                         {stock.quarterly.map((q, i) => (
                           <tr key={i} className="hover:bg-white/5 transition-colors">
-                            <td className="py-2.5 font-bold text-white font-sans">{q.quarter}</td>
-                            <td className="py-2.5 text-right text-slate-200">₹{q.revenueCr.toLocaleString('en-IN')} Cr</td>
-                            <td className="py-2.5 text-right font-bold text-emerald-400">₹{q.netProfitCr.toLocaleString('en-IN')} Cr</td>
-                            <td className="py-2.5 text-right text-primary">{q.marginPercent.toFixed(2)}%</td>
-                            <td className={`py-2.5 text-right font-bold ${q.yoyGrowth >= 0 ? 'text-secondary' : 'text-tertiary'}`}>
+                            <td className="py-3 px-4 font-bold text-white font-sans">{q.quarter}</td>
+                            <td className="py-3 px-4 text-right">₹{q.revenueCr.toLocaleString('en-IN')} Cr</td>
+                            <td className="py-3 px-4 text-right font-bold text-[#24c78b]">₹{q.netProfitCr.toLocaleString('en-IN')} Cr</td>
+                            <td className="py-3 px-4 text-right font-bold text-[#FF9B42]">{q.marginPercent.toFixed(2)}%</td>
+                            <td className={`py-3 px-4 text-right font-bold ${q.yoyGrowth >= 0 ? 'text-[#24c78b]' : 'text-[#ff4d5a]'}`}>
                               {q.yoyGrowth >= 0 ? '+' : ''}{q.yoyGrowth.toFixed(1)}% YoY
                             </td>
                           </tr>
@@ -433,80 +478,88 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
 
           {/* TAB 3: SHAREHOLDING & ANALYST TARGETS */}
           {activeTab === 'shareholding' && (
-            <div className="flex flex-col gap-4">
-              {/* Ownership Pattern */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-4">
-                <h3 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-[20px]">groups</span>
-                  <span>Shareholding Ownership Structure</span>
-                </h3>
+            <div className="flex flex-col gap-5 max-w-6xl mx-auto w-full">
+              {/* Ownership Pattern Cards */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+                <div className="flex items-center justify-between pb-2 border-b border-white/15">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#FF7900] text-[22px]">pie_chart</span>
+                    <h3 className="font-bold text-white text-base">Shareholding Structure &amp; Ownership</h3>
+                  </div>
+                  <span className="text-xs text-slate-300 font-mono">Total Capital: 100%</span>
+                </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                  <div className="p-4 rounded-xl bg-black/30 border border-white/5">
-                    <span className="text-xs text-slate-400 block mb-1">Promoter Holding</span>
-                    <span className="text-white font-mono font-black text-xl">{stock.shareholding.promoters}%</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Founders / Core Parent</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                  <div className="p-5 rounded-xl bg-[#0b1020] border border-white/15 shadow-md flex flex-col items-center">
+                    <span className="text-xs text-slate-300 font-semibold block mb-1">Promoter Holding</span>
+                    <span className="text-white font-mono font-black text-3xl">{stock.shareholding.promoters}%</span>
+                    <span className="text-xs text-slate-400 block mt-2">Founders &amp; Parent Entity</span>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-black/30 border border-white/5">
-                    <span className="text-xs text-slate-400 block mb-1">FII (Foreign Inst.)</span>
-                    <span className="text-secondary font-mono font-black text-xl">{stock.shareholding.fii}%</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Global Institutions</span>
+                  <div className="p-5 rounded-xl bg-[#0b1020] border border-white/15 shadow-md flex flex-col items-center">
+                    <span className="text-xs text-slate-300 font-semibold block mb-1">FII (Foreign Inst.)</span>
+                    <span className="text-[#24c78b] font-mono font-black text-3xl">{stock.shareholding.fii}%</span>
+                    <span className="text-xs text-slate-400 block mt-2">Global Sovereign &amp; Funds</span>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-black/30 border border-white/5">
-                    <span className="text-xs text-slate-400 block mb-1">DII (Mutual Funds)</span>
-                    <span className="text-primary font-mono font-black text-xl">{stock.shareholding.dii}%</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Domestic Institutions</span>
+                  <div className="p-5 rounded-xl bg-[#0b1020] border border-white/15 shadow-md flex flex-col items-center">
+                    <span className="text-xs text-slate-300 font-semibold block mb-1">DII (Mutual Funds)</span>
+                    <span className="text-[#FF9B42] font-mono font-black text-3xl">{stock.shareholding.dii}%</span>
+                    <span className="text-xs text-slate-400 block mt-2">Indian Insurance &amp; MF</span>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-black/30 border border-white/5">
-                    <span className="text-xs text-slate-400 block mb-1">Public &amp; Retail</span>
-                    <span className="text-slate-200 font-mono font-black text-xl">{stock.shareholding.retail}%</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Individual Investors</span>
+                  <div className="p-5 rounded-xl bg-[#0b1020] border border-white/15 shadow-md flex flex-col items-center">
+                    <span className="text-xs text-slate-300 font-semibold block mb-1">Public &amp; Retail</span>
+                    <span className="text-slate-200 font-mono font-black text-3xl">{stock.shareholding.retail}%</span>
+                    <span className="text-xs text-slate-400 block mt-2">Individual Retail Investors</span>
                   </div>
                 </div>
               </div>
 
-              {/* Analyst Ratings & Price Targets */}
-              <div className="bg-[#111726] border border-white/10 rounded-2xl p-5 flex flex-col gap-4">
-                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-white/10">
+              {/* Analyst Consensus & Price Targets */}
+              <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+                <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-white/15">
                   <div>
-                    <h3 className="font-bold text-white text-base">Institutional Analyst Consensus</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
-                      Coverage from {stock.analystRatings.coverageHouses} leading Wall Street and Dalal Street brokerage houses.
+                    <h3 className="font-bold text-white text-lg tracking-tight">Institutional Brokerage Consensus</h3>
+                    <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                      Aggregated recommendations from {stock.analystRatings.coverageHouses} research houses.
                     </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs text-slate-400 block">Consensus Target</span>
-                    <span className="text-xl font-black text-white font-mono">₹{stock.analystRatings.consensusTarget.toFixed(2)}</span>
-                    <span className="text-xs text-secondary font-bold font-mono">+{stock.analystRatings.upsidePercent}% Upside</span>
+                  <div className="text-right bg-[#0b1020] px-5 py-3 rounded-xl border border-white/15">
+                    <span className="text-xs text-slate-300 block font-medium">12-Month Target Price</span>
+                    <span className="text-2xl font-black text-white font-mono">₹{stock.analystRatings.consensusTarget.toFixed(2)}</span>
+                    <span className="text-xs text-[#24c78b] font-black font-mono block mt-0.5">
+                      +{stock.analystRatings.upsidePercent}% Projected Upside
+                    </span>
                   </div>
                 </div>
 
-                {/* Buy / Hold / Sell Progress */}
+                {/* Rating Distribution Bar */}
                 <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-secondary">Buy: {stock.analystRatings.buyPercent}%</span>
-                    <span className="text-yellow-400">Hold: {stock.analystRatings.holdPercent}%</span>
-                    <span className="text-rose-400">Sell: {stock.analystRatings.sellPercent}%</span>
+                  <div className="flex justify-between text-xs sm:text-sm font-bold">
+                    <span className="text-[#24c78b]">BUY: {stock.analystRatings.buyPercent}%</span>
+                    <span className="text-amber-400">HOLD: {stock.analystRatings.holdPercent}%</span>
+                    <span className="text-[#ff4d5a]">SELL: {stock.analystRatings.sellPercent}%</span>
                   </div>
-                  <div className="w-full h-3 rounded-full overflow-hidden flex bg-black/40 border border-white/10">
-                    <div className="bg-secondary h-full" style={{ width: `${stock.analystRatings.buyPercent}%` }} />
-                    <div className="bg-yellow-400 h-full" style={{ width: `${stock.analystRatings.holdPercent}%` }} />
-                    <div className="bg-rose-500 h-full" style={{ width: `${stock.analystRatings.sellPercent}%` }} />
+                  <div className="w-full h-4 rounded-full overflow-hidden flex bg-black/60 border border-white/15 p-0.5">
+                    <div className="bg-[#24c78b] h-full rounded-l-full" style={{ width: `${stock.analystRatings.buyPercent}%` }} />
+                    <div className="bg-amber-400 h-full" style={{ width: `${stock.analystRatings.holdPercent}%` }} />
+                    <div className="bg-[#ff4d5a] h-full rounded-r-full" style={{ width: `${stock.analystRatings.sellPercent}%` }} />
                   </div>
                 </div>
 
-                {/* Latest Research Note */}
-                <div className="p-4 rounded-xl bg-black/30 border border-white/10 flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-white">{stock.analystRatings.latestNoteAuthor}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] bg-secondary/20 text-secondary font-bold uppercase">
+                {/* Latest Wall Street Note */}
+                <div className="p-5 rounded-xl bg-[#0b1020] border border-white/15 flex flex-col gap-2 shadow-inner">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <span className="font-bold text-white flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[#FF7900] text-[18px]">rate_review</span>
+                      {stock.analystRatings.latestNoteAuthor}
+                    </span>
+                    <span className="px-3 py-1 rounded-md text-xs bg-[#24c78b]/20 text-[#24c78b] font-black uppercase border border-[#24c78b]/40">
                       {stock.analystRatings.latestNoteStance}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 italic">
+                  <p className="text-xs sm:text-sm text-slate-200 italic leading-relaxed pl-6 border-l-2 border-[#FF7900]">
                     "{stock.analystRatings.latestNoteQuote}"
                   </p>
                 </div>
@@ -514,67 +567,83 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
             </div>
           )}
 
-          {/* TAB 4: TRADINGVIEW TECHNICAL SENTIMENT */}
+          {/* TAB 4: TRADINGVIEW TECHNICAL SENTIMENT GAUGE */}
           {activeTab === 'technicals' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-2 flex flex-col gap-2">
-                <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-primary" />
-                  TradingView Technical Sentiment &amp; Oscillator Summary
-                </h3>
-                <p className="text-xs text-slate-400 mb-2">
-                  Live real-time aggregation of 26 technical indicators from in.tradingview.com (RSI, Stochastic, MACD, EMAs, and SMAs).
-                </p>
-                <TradingViewTechnicalAnalysis symbol={tvSymbol} height={440} interval="1D" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-6xl mx-auto w-full">
+              <div className="lg:col-span-2 flex flex-col gap-3">
+                <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl flex flex-col gap-3">
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#FF7900] text-[20px]">speed</span>
+                      <span>TradingView Technical Sentiment Meter</span>
+                    </h3>
+                    <p className="text-xs text-slate-300 mt-1">
+                      Live real-time aggregation across 26 technical indicators (RSI, Stochastic, MACD, Moving Averages) from in.tradingview.com.
+                    </p>
+                  </div>
+                  <div className="rounded-xl overflow-hidden border border-white/10 mt-1">
+                    <TradingViewTechnicalAnalysis symbol={tvSymbol} height={440} interval="1D" />
+                  </div>
+                </div>
               </div>
 
-              {/* Technical Indicator Snapshots */}
-              <div className="flex flex-col gap-3">
-                <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Technical Checklist
-                </h3>
-                <div className="bg-[#111726] border border-white/10 rounded-xl p-4 space-y-3 text-xs">
-                  <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                    <span className="text-slate-400">Trend Bias:</span>
-                    <span className={`font-mono font-bold ${stock.change >= 0 ? 'text-secondary' : 'text-tertiary'}`}>
+              {/* Technical Checklist */}
+              <div className="flex flex-col gap-4">
+                <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl space-y-4 text-xs sm:text-sm">
+                  <h4 className="font-bold text-white uppercase tracking-wider text-xs flex items-center gap-2 pb-2 border-b border-white/15">
+                    <span className="material-symbols-outlined text-[#24c78b] text-[18px]">check_circle</span>
+                    <span>Technical Checklist</span>
+                  </h4>
+
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-slate-300">Trend Bias:</span>
+                    <span className={`font-mono font-bold ${stock.change >= 0 ? 'text-[#24c78b]' : 'text-[#ff4d5a]'}`}>
                       {stock.change >= 0 ? 'Bullish Expansion' : 'Bearish Consolidation'}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                    <span className="text-slate-400">Beta (1-Year Volatility):</span>
+
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-slate-300">Beta (1-Year Volatility):</span>
                     <span className="font-mono font-bold text-white">{stock.beta1Y} ({stock.betaVolatility})</span>
                   </div>
-                  <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                    <span className="text-slate-400">52-Week Range Position:</span>
-                    <span className="font-mono font-bold text-primary">{stock.rangePositionPercent}% of 52W High</span>
+
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-slate-300">52-Week Range Position:</span>
+                    <span className="font-mono font-bold text-[#FF9B42]">{stock.rangePositionPercent}% from 52W Low</span>
                   </div>
-                  <div className="flex justify-between items-center pb-2 border-b border-white/5">
-                    <span className="text-slate-400">Day High / Low Spread:</span>
+
+                  <div className="flex justify-between items-center pb-2 border-b border-white/10">
+                    <span className="text-slate-300">Day High / Low Spread:</span>
                     <span className="font-mono text-white">₹{stock.dayLow.toFixed(2)} - ₹{stock.dayHigh.toFixed(2)}</span>
                   </div>
+
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-400">Trading Volume:</span>
+                    <span className="text-slate-300">Trading Volume:</span>
                     <span className="font-mono font-bold text-white">{stock.volume} Shares</span>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-primary/10 border border-primary/30 text-xs text-slate-300">
-                  <strong className="text-primary block mb-1">Alpha Insight:</strong>
-                  {stock.alphaSignalSummary}
+                <div className="p-5 rounded-2xl bg-[#131b2e] border border-[#FF7900]/30 shadow-xl text-xs sm:text-sm text-slate-200">
+                  <strong className="text-[#FF9B42] block mb-1.5 font-bold uppercase tracking-wide text-xs">
+                    Alpha Signal Thesis:
+                  </strong>
+                  <p className="leading-relaxed">
+                    {stock.alphaSignalSummary}
+                  </p>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Modal Footer */}
-        <div className="px-5 py-3 bg-[#111726] border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
-          <div className="flex items-center gap-2 text-slate-400 text-[11px]">
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            <span>Live market information sourced from <strong>in.tradingview.com</strong></span>
+        {/* 4. MODAL FOOTER */}
+        <div className="px-5 py-3.5 bg-[#111827] border-t border-white/15 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
+          <div className="flex items-center gap-2 text-slate-300 text-xs">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#24c78b] animate-pulse" />
+            <span>Live market feeds sourced directly from <strong>in.tradingview.com</strong></span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {onOpenFullDeepDive && (
               <button
                 type="button"
@@ -582,17 +651,17 @@ export const StockLiveDetailsModal: React.FC<StockLiveDetailsModalProps> = ({
                   onClose();
                   onOpenFullDeepDive(stock.symbol);
                 }}
-                className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white font-semibold transition-all flex items-center gap-1.5 text-xs"
+                className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white font-bold transition-all flex items-center gap-1.5 text-xs cursor-pointer border border-white/10"
               >
                 <span>Open Full Stock Deep Dive Screen</span>
-                <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
             )}
 
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-1.5 rounded-xl bg-primary text-black font-bold text-xs hover:bg-[#ff9b42] transition-colors"
+              className="px-5 py-2 rounded-xl bg-[#FF7900] text-black font-black text-xs hover:bg-[#ff9b42] transition-colors shadow-md cursor-pointer"
             >
               Done / Return to Screener
             </button>

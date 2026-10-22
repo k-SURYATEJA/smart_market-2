@@ -15,7 +15,7 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
   const [sortBy, setSortBy] = useState<'marketCap' | 'pe' | 'change' | 'price'>('marketCap');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
-  // Live TradingView Stock Details Modal State (no navigation away)
+  // Live Stock Details Modal State (opens right on screener without navigating away)
   const [activeStock, setActiveStock] = useState<StockData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -74,43 +74,44 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
   });
 
   return (
-    <div className="flex flex-col w-full gap-space-md">
+    <div className="flex flex-col w-full gap-5">
       {/* Header & Filter Controls */}
-      <section className="w-full bg-surface-container rounded-xl shadow-md p-space-md flex flex-col gap-space-md border border-outline-variant/20">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+      <section className="w-full bg-[#131b2e] rounded-2xl shadow-xl p-5 sm:p-6 flex flex-col gap-4 border border-white/15">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface">
-                NSE Technical Screener &amp; Live Information
+            <div className="flex items-center gap-2.5">
+              <span className="material-symbols-outlined text-[#FF7900] text-[26px]">manage_search</span>
+              <h2 className="text-xl font-black text-white tracking-tight">
+                NSE Technical Screener &amp; Asset Details
               </h2>
-              <span className="px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/40 font-mono text-[10px] font-bold uppercase tracking-wider">
-                TradingView Powered
+              <span className="px-2.5 py-0.5 rounded-full bg-[#FF7900]/20 text-[#FF9B42] border border-[#FF7900]/40 font-mono text-[10px] font-bold uppercase tracking-wider">
+                TradingView Data
               </span>
             </div>
-            <p className="font-body-sm text-body-sm text-outline mt-0.5">
-              Screen across Indian equities. Click any asset to open live TradingView charts, indicators, and real-time feeds without leaving the screener.
+            <p className="text-xs sm:text-sm text-slate-300 mt-1">
+              Screen across Indian equities. Click any asset row or the <strong>View Details</strong> button to open full in-depth company information without leaving the screener.
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-mono-xs text-mono-xs px-2.5 py-1 rounded bg-surface-container-highest text-primary font-bold">
+            <span className="font-mono text-xs px-3 py-1.5 rounded-xl bg-[#0b1020] text-[#FF7900] font-black border border-white/10 shadow-inner">
               {filteredStocks.length} Assets Found
             </span>
           </div>
         </div>
 
         {/* Filter bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2">
           {/* Search box */}
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">
+            <span className="material-symbols-outlined absolute left-3.5 top-2.5 text-slate-400 text-[20px]">
               search
             </span>
             <input
               type="text"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              placeholder="Search by company or ticker (e.g. Reliance, TCS)..."
-              className="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-lg pl-9 pr-3 py-2 font-mono-xs text-mono-xs text-on-surface placeholder:text-outline focus:border-primary focus:outline-none"
+              placeholder="Search ticker or company (e.g. Reliance, TCS)..."
+              className="w-full bg-[#0b1020] border border-white/20 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white placeholder:text-slate-400 focus:border-[#FF7900] focus:outline-none transition-colors"
             />
           </div>
 
@@ -120,10 +121,10 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
               <button
                 key={sec}
                 onClick={() => setSelectedSector(sec)}
-                className={`px-3 py-1.5 rounded font-mono-xs text-mono-xs whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   selectedSector === sec
-                    ? 'bg-primary text-on-primary-fixed font-bold'
-                    : 'bg-surface-container-lowest text-outline hover:text-on-surface border border-outline-variant/30'
+                    ? 'bg-[#FF7900] text-black font-black shadow-[0_0_12px_rgba(255,121,0,0.35)]'
+                    : 'bg-[#0b1020] text-slate-300 hover:text-white hover:bg-white/10 border border-white/10'
                 }`}
                 type="button"
               >
@@ -134,11 +135,11 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
 
           {/* Sort selector */}
           <div className="flex items-center gap-2 justify-end">
-            <span className="font-mono-xs text-mono-xs text-outline">Sort:</span>
+            <span className="text-xs text-slate-300 font-semibold">Sort by:</span>
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value as typeof sortBy)}
-              className="bg-surface-container-lowest border border-outline-variant/40 rounded px-2.5 py-1.5 font-mono-xs text-mono-xs text-on-surface focus:outline-none"
+              className="bg-[#0b1020] border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#FF7900] cursor-pointer"
             >
               <option value="marketCap">Market Cap</option>
               <option value="pe">P/E Ratio</option>
@@ -147,11 +148,11 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
             </select>
             <button
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-              className="p-1.5 rounded bg-surface-container-lowest border border-outline-variant/40 text-on-surface hover:text-primary transition-colors cursor-pointer"
+              className="p-2 rounded-xl bg-[#0b1020] border border-white/20 text-white hover:text-[#FF7900] transition-colors cursor-pointer"
               title="Toggle sort direction"
               type="button"
             >
-              <span className="material-symbols-outlined text-[16px]">
+              <span className="material-symbols-outlined text-[18px]">
                 {sortOrder === 'desc' ? 'arrow_downward' : 'arrow_upward'}
               </span>
             </button>
@@ -160,101 +161,105 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
       </section>
 
       {/* Screener Data Table */}
-      <div className="w-full bg-surface-container rounded-xl shadow-md border border-outline-variant/20 overflow-x-auto">
-        <table className="w-full text-left font-mono-xs text-mono-xs">
-          <thead>
-            <tr className="bg-surface-container-lowest text-outline font-label-sm uppercase">
-              <th className="py-3 px-3">Company / Asset</th>
-              <th className="py-3 px-3 text-right">LTP (₹)</th>
-              <th className="py-3 px-3 text-right">Day %</th>
-              <th className="py-3 px-3 text-right">Market Cap</th>
-              <th className="py-3 px-3 text-right">P/E</th>
-              <th className="py-3 px-3 text-right">P/B</th>
-              <th className="py-3 px-3 text-right">52W Position</th>
-              <th className="py-3 px-3 text-right">Div Yield</th>
-              <th className="py-3 px-3 text-center">Live Analysis</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-outline-variant/20">
-            {filteredStocks.map(stock => (
-              <tr
-                key={stock.symbol}
-                onClick={() => handleOpenStockDetails(stock)}
-                className="hover:bg-surface-container-high transition-colors group cursor-pointer"
-              >
-                <td className="py-3 px-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center font-bold text-primary shrink-0 group-hover:scale-105 transition-transform">
-                      {stock.symbol.slice(0, 3)}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-1.5">
-                        <span>{stock.name}</span>
-                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/5 font-mono text-slate-400">
-                          {stock.tradingViewSymbol || `BSE:${stock.symbol}`}
-                        </span>
-                      </div>
-                      <div className="text-[10px] text-outline">
-                        {stock.symbol} · {stock.sector}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td className="py-3 px-3 text-right font-bold text-on-surface">
-                  ₹{stock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                </td>
-                <td className="py-3 px-3 text-right">
-                  <span
-                    className={`font-semibold ${
-                      stock.change >= 0 ? 'text-secondary' : 'text-tertiary'
-                    }`}
-                  >
-                    {stock.change >= 0 ? '+' : ''}
-                    {stock.changePercent.toFixed(2)}%
-                  </span>
-                </td>
-                <td className="py-3 px-3 text-right text-on-surface font-medium">
-                  {stock.marketCapCr}
-                </td>
-                <td className="py-3 px-3 text-right text-on-surface">{stock.peRatio.toFixed(2)}</td>
-                <td className="py-3 px-3 text-right text-on-surface">{stock.pbRatio.toFixed(2)}</td>
-                <td className="py-3 px-3 text-right">
-                  <div className="inline-flex items-center gap-1.5">
-                    <div className="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-secondary rounded-full"
-                        style={{ width: `${stock.rangePositionPercent}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] text-outline">
-                      {stock.rangePositionPercent}%
-                    </span>
-                  </div>
-                </td>
-                <td className="py-3 px-3 text-right text-on-surface">
-                  {stock.dividendYield.toFixed(2)}%
-                </td>
-                <td className="py-3 px-3 text-center">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleOpenStockDetails(stock);
-                    }}
-                    className="px-3 py-1 rounded-lg bg-primary text-black font-label-sm font-bold hover:bg-primary-fixed shadow-[0_0_8px_rgba(0,208,108,0.25)] transition-all cursor-pointer inline-flex items-center gap-1"
-                    type="button"
-                    title="Open live TradingView charts and details"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">query_stats</span>
-                    <span>Live Details</span>
-                  </button>
-                </td>
+      <div className="w-full bg-[#131b2e] rounded-2xl shadow-xl border border-white/15 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left font-mono text-xs sm:text-sm">
+            <thead>
+              <tr className="bg-[#1e293b] text-white font-bold border-b border-white/20 uppercase tracking-wider text-[11px] font-sans">
+                <th className="py-3.5 px-4">Company / Asset</th>
+                <th className="py-3.5 px-4 text-right">LTP (₹)</th>
+                <th className="py-3.5 px-4 text-right">Day %</th>
+                <th className="py-3.5 px-4 text-right">Market Cap</th>
+                <th className="py-3.5 px-4 text-right">P/E Ratio</th>
+                <th className="py-3.5 px-4 text-right">P/B Ratio</th>
+                <th className="py-3.5 px-4 text-right">52W Position</th>
+                <th className="py-3.5 px-4 text-right">Div Yield</th>
+                <th className="py-3.5 px-4 text-center">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/10 text-slate-200">
+              {filteredStocks.map(stock => (
+                <tr
+                  key={stock.symbol}
+                  onClick={() => handleOpenStockDetails(stock)}
+                  className="hover:bg-[#1e293b]/70 transition-colors group cursor-pointer"
+                >
+                  <td className="py-3.5 px-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#0b1020] border border-white/15 flex items-center justify-center font-bold text-[#FF7900] shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                        {stock.symbol.slice(0, 3)}
+                      </div>
+                      <div>
+                        <div className="font-bold text-white group-hover:text-[#FF7900] transition-colors flex items-center gap-2 font-sans text-sm">
+                          <span>{stock.name}</span>
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/10 font-mono text-slate-300">
+                            {stock.tradingViewSymbol || `BSE:${stock.symbol}`}
+                          </span>
+                        </div>
+                        <div className="text-xs text-slate-400 font-sans mt-0.5">
+                          {stock.symbol} • {stock.sector}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-4 text-right font-black text-white text-sm">
+                    ₹{stock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  </td>
+                  <td className="py-3.5 px-4 text-right">
+                    <span
+                      className={`font-bold px-2 py-0.5 rounded-md text-xs inline-block ${
+                        stock.change >= 0
+                          ? 'bg-[#24c78b]/20 text-[#24c78b] border border-[#24c78b]/30'
+                          : 'bg-[#ff4d5a]/20 text-[#ff4d5a] border border-[#ff4d5a]/30'
+                      }`}
+                    >
+                      {stock.change >= 0 ? '+' : ''}
+                      {stock.changePercent.toFixed(2)}%
+                    </span>
+                  </td>
+                  <td className="py-3.5 px-4 text-right text-white font-medium">
+                    {stock.marketCapCr}
+                  </td>
+                  <td className="py-3.5 px-4 text-right text-slate-100 font-semibold">{stock.peRatio.toFixed(2)}</td>
+                  <td className="py-3.5 px-4 text-right text-slate-100 font-semibold">{stock.pbRatio.toFixed(2)}</td>
+                  <td className="py-3.5 px-4 text-right">
+                    <div className="inline-flex items-center gap-2">
+                      <div className="w-16 h-2 bg-black/40 rounded-full overflow-hidden border border-white/10">
+                        <div
+                          className="h-full bg-gradient-to-r from-[#FF7900] to-[#24c78b] rounded-full"
+                          style={{ width: `${stock.rangePositionPercent}%` }}
+                        />
+                      </div>
+                      <span className="text-xs text-slate-300 font-semibold">
+                        {stock.rangePositionPercent}%
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-4 text-right text-slate-100 font-semibold">
+                    {stock.dividendYield.toFixed(2)}%
+                  </td>
+                  <td className="py-3.5 px-4 text-center">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenStockDetails(stock);
+                      }}
+                      className="px-3.5 py-1.5 rounded-xl bg-[#FF7900] text-black font-sans text-xs font-black hover:bg-[#ff9b42] shadow-[0_0_10px_rgba(255,121,0,0.35)] transition-all cursor-pointer inline-flex items-center gap-1.5"
+                      type="button"
+                      title="Open full company details"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">visibility</span>
+                      <span>View Details</span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Interactive Stock Live Details Modal with TradingView Integration (Stays on Screener) */}
+      {/* Interactive Stock Live Details Modal with Clear Company Information */}
       {activeStock && (
         <StockLiveDetailsModal
           stock={activeStock}
