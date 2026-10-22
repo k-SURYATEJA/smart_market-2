@@ -197,7 +197,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <span>Forex Technicals</span>
                   </button>
 
-                  {/* Technical Risk & Position Calculator */}
+                  {/* SIP & Investment Calculator */}
                   <button
                     type="button"
                     onClick={() => handleLinkClick('risk-reward-calculator')}
@@ -206,7 +206,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <span className="material-symbols-outlined text-[16px]">calculate</span>
-                    <span>Risk &amp; Target Calculator</span>
+                    <span>Calculator</span>
                   </button>
                 </div>
               )}

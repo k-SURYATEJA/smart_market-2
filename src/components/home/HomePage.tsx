@@ -567,20 +567,20 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Card 2 */}
-            <div className="p-7 rounded-2xl bg-[#141519] border border-[#303139] hover:border-[#FF7900]/50 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-[#FF7900]/15 border border-[#FF7900]/30 text-[#FF7900] flex items-center justify-center mb-5">
+            <div className="p-7 rounded-2xl bg-[#141519] border border-[#303139] hover:border-[#00D09C]/50 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-[#00D09C]/15 border border-[#00D09C]/30 text-[#00D09C] flex items-center justify-center mb-5">
                 <span className="material-symbols-outlined text-[24px]">calculate</span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2">
-                2. Position Sizing &amp; Risk Engine
+                2. SIP &amp; Wealth Calculator
               </h3>
               <p className="text-xs text-[#A4A7B0] leading-relaxed">
-                Eliminate emotional guessing. Calculate exact lot sizing, pip risk in dollars, and predefined 1:2 and 1:3 profit target thresholds to guard against risk of ruin.
+                Plan long-term wealth creation. Calculate compound interest, future corpus values, and expected returns across monthly SIP or one-time Lumpsum investments.
               </p>
               <button
                 type="button"
                 onClick={() => onNavigateToSection('risk-reward-calculator')}
-                className="mt-4 text-xs font-bold text-[#FF7900] flex items-center gap-1 hover:underline cursor-pointer"
+                className="mt-4 text-xs font-bold text-[#00D09C] flex items-center gap-1 hover:underline cursor-pointer"
               >
                 <span>Launch Calculator</span>
                 <span className="material-symbols-outlined text-[14px]">arrow_forward</span>

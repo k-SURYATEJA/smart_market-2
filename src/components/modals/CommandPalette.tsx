@@ -28,7 +28,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { id: 'stock-screener', title: 'Technical & Fundamental Screener', category: 'Technical Analysis', icon: 'filter_alt' },
     { id: 'indian-market-terminal', title: 'Order Flow & Level-2 Depth', category: 'Technical Analysis', icon: 'format_align_justify' },
     { id: 'forex', title: 'Forex Currency Technicals', category: 'Technical Analysis', icon: 'currency_exchange' },
-    { id: 'risk-reward-calculator', title: 'Risk & Target Position Calculator', category: 'Technical Analysis', icon: 'calculate' },
+    { id: 'risk-reward-calculator', title: 'Calculator (Groww SIP & Investment)', category: 'Calculators', icon: 'calculate' },
     { id: 'dashboard', title: 'Market Overview & Sector Breadth', category: 'Markets', icon: 'dashboard' },
     { id: 'indices-and-sectors', title: 'Indices & Sector Performance', category: 'Markets', icon: 'pie_chart' },
     { id: 'impacted-news', title: 'Impacted News & Macro Catalysts', category: 'Fundamental Analysis', icon: 'feed' },
