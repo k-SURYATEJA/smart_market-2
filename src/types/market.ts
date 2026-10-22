@@ -118,6 +118,28 @@ export interface StockData {
     marginPercent: number;
     yoyGrowth: number;
   }[];
+  corporateDetails?: {
+    managingDirector: string;
+    cfo: string;
+    foundedYear: number;
+    headquarters: string;
+    employeesCount: string;
+    isin: string;
+    listingDate: string;
+    websiteUrl: string;
+    competitiveMoats: {
+      title: string;
+      description: string;
+      icon: string;
+    }[];
+    keySubsidiaries: {
+      name: string;
+      focus: string;
+      ownership: string;
+    }[];
+    growthCatalysts: string[];
+    keyRisks: string[];
+  };
 }
 
 export interface JournalEntry {

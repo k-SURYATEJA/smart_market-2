@@ -81,6 +81,55 @@ export const STOCKS_DATA: Record<string, StockData> = {
       { quarter: 'Q1 FY25', revenueCr: 236217, netProfitCr: 17445, marginPercent: 7.38, yoyGrowth: 7.5 },
       { quarter: 'Q4 FY24', revenueCr: 240715, netProfitCr: 18951, marginPercent: 7.87, yoyGrowth: 8.9 },
     ],
+    corporateDetails: {
+      managingDirector: 'Mukesh D. Ambani (Chairman & MD)',
+      cfo: 'Srikanth Venkatachari (Group CFO)',
+      foundedYear: 1958,
+      headquarters: 'Maker Chambers IV, Nariman Point, Mumbai, Maharashtra 400021',
+      employeesCount: '389,000+ Worldwide',
+      isin: 'INE002A01018',
+      listingDate: '29 November 1977',
+      websiteUrl: 'https://www.ril.com',
+      competitiveMoats: [
+        {
+          title: 'Integrated Petrochemical & Refining Scale',
+          description: "Operates Jamnagar, the world's largest refining complex with 1.24 Mbpd throughput and a top Nelson Complexity Index (14.5).",
+          icon: 'factory',
+        },
+        {
+          title: "India's #1 Digital Telecom Network",
+          description: 'Jio commands 470M+ subscribers with end-to-end 5G Standalone indigenous radio stack and sub-1% churn rate.',
+          icon: 'cell_tower',
+        },
+        {
+          title: 'Omnichannel Retail Hegemony',
+          description: 'Reliance Retail network covers 18,700+ physical stores spanning grocery, consumer electronics, fashion, and pharma.',
+          icon: 'storefront',
+        },
+        {
+          title: 'Green Hydrogen & Clean Energy Transition',
+          description: 'Dhirubhai Ambani Green Energy Giga Complex (Jamnagar) underway across 5,000 acres for solar, storage, and fuel cells.',
+          icon: 'solar_power',
+        },
+      ],
+      keySubsidiaries: [
+        { name: 'Jio Platforms Limited', focus: 'Telecom 5G, Enterprise Cloud, AI & JioCinema Media Streaming', ownership: '67.0% RIL (w/ Google, Meta)' },
+        { name: 'Reliance Retail Ventures', focus: 'Grocery (Fresh/Smart), Digital Electronics & Fashion Lifestyle Chains', ownership: '83.8% RIL' },
+        { name: 'Reliance New Energy Ltd', focus: 'Solar PV Module Gigafactory, Green Hydrogen Electrolyzers & Battery Tech', ownership: '100% Owned' },
+        { name: 'Network18 Media & Investments', focus: 'National News, CNBC TV18, Entertainment Broadcasting & Digital OTT', ownership: '73.1% Subsidiary' },
+      ],
+      growthCatalysts: [
+        'Tariff hikes in telecom sector translating into direct blended ARPU growth (+15-20%) across Jio mobile subscriber base',
+        'Commercial monetization of 5G AirFiber broadband across 100M homes in semi-urban and rural India',
+        'Potential standalone market listing (IPO) of Reliance Retail Ventures and Jio Platforms unlocking conglomerate value',
+        'First phase commissioning of 20GW Solar Photovoltaic manufacturing giga-factory at Jamnagar by FY26',
+      ],
+      keyRisks: [
+        'Volatile crude oil benchmarks and international crack spreads impacting Gross Refining Margins (GRM)',
+        'Heightened capital expenditure run-rate across renewable projects deferring peak free cash flow generation',
+        'Regulatory policy revisions regarding telecommunication spectrum pricing or windfall energy export levies',
+      ],
+    },
   },
   TCS: {
     symbol: 'TCS',
@@ -162,6 +211,55 @@ export const STOCKS_DATA: Record<string, StockData> = {
       { quarter: 'Q1 FY25', revenueCr: 62613, netProfitCr: 12040, marginPercent: 19.23, yoyGrowth: 8.7 },
       { quarter: 'Q4 FY24', revenueCr: 61237, netProfitCr: 12434, marginPercent: 20.31, yoyGrowth: 9.1 },
     ],
+    corporateDetails: {
+      managingDirector: 'K. Krithivasan (MD & CEO)',
+      cfo: 'Samir Seksaria (Chief Financial Officer)',
+      foundedYear: 1968,
+      headquarters: 'TCS House, Raveline Street, Fort, Mumbai, Maharashtra 400001',
+      employeesCount: '601,000+ Worldwide across 46 Countries',
+      isin: 'INE467B01029',
+      listingDate: '25 August 2004',
+      websiteUrl: 'https://www.tcs.com',
+      competitiveMoats: [
+        {
+          title: 'Unmatched Enterprise Scale & Client Stickiness',
+          description: 'Second largest global IT services provider with $29B+ revenue and over 98% recurring enterprise business.',
+          icon: 'hub',
+        },
+        {
+          title: 'Industry-Lowest Attrition & Talent Retention',
+          description: 'Benchmark operating margin stability (24-26%) and lowest employee attrition among Indian Tier-1 peers.',
+          icon: 'military_tech',
+        },
+        {
+          title: 'Proprietary IP Platforms (TCS BaNCS, ignio™)',
+          description: 'Mission-critical software platforms powering central banks, depository clearings, and AI enterprise operations.',
+          icon: 'memory',
+        },
+        {
+          title: 'Comprehensive Global Delivery Centers',
+          description: 'Extensive delivery footprint across North America, UK, Europe, Latin America, and Asia-Pacific.',
+          icon: 'public',
+        },
+      ],
+      keySubsidiaries: [
+        { name: 'TCS BaNCS Solutions', focus: 'Universal Core Banking, Financial Markets & Insurance Core Platform', ownership: '100% Owned' },
+        { name: 'Digitate (ignio™)', focus: 'Autonomous Enterprise AI & Cognitive Automation Platform', ownership: '100% Subsidiary' },
+        { name: 'TCS Pace Port™', focus: 'Global Co-Innovation & Generative AI Hubs (New York, Tokyo, London, Paris)', ownership: '100% Division' },
+        { name: 'Tata Consultancy Services SA', focus: 'Latin America Nearshore Enterprise Consulting & Cloud Delivery', ownership: '100% Subsidiary' },
+      ],
+      growthCatalysts: [
+        'Expanding GenAI pipeline with $900M+ active AI contracts and 350,000+ AI-certified engineers',
+        'Large mega-deal ramp-ups in UK and Continental Europe BFSI and public sectors',
+        'Cloud modernization partnerships with AWS, Microsoft Azure, and Google Cloud platform ecosystems',
+        'Consistently strong free cash flow conversion with 80-100% capital returned via buybacks and dividends',
+      ],
+      keyRisks: [
+        'Discretionary IT consulting spending slowdown or deferrals in North America BFSI sector',
+        'Adverse cross-currency foreign exchange volatility (USD/INR, GBP/INR, EUR/INR)',
+        'Increasing protectionist visa requirements and local hiring cost pressures in overseas markets',
+      ],
+    },
   },
   HDFCBANK: {
     symbol: 'HDFCBANK',
@@ -243,6 +341,55 @@ export const STOCKS_DATA: Record<string, StockData> = {
       { quarter: 'Q1 FY25', revenueCr: 83700, netProfitCr: 16175, marginPercent: 19.32, yoyGrowth: 35.3 },
       { quarter: 'Q4 FY24', revenueCr: 80700, netProfitCr: 16512, marginPercent: 20.46, yoyGrowth: 37.1 },
     ],
+    corporateDetails: {
+      managingDirector: 'Sashidhar Jagdishan (MD & CEO)',
+      cfo: 'Srinivasan Vaidyanathan (Chief Financial Officer)',
+      foundedYear: 1994,
+      headquarters: 'HDFC Bank House, Senapati Bapat Marg, Lower Parel, Mumbai 400013',
+      employeesCount: '213,000+ Professionals across India',
+      isin: 'INE040A01034',
+      listingDate: '19 May 1995',
+      websiteUrl: 'https://www.hdfcbank.com',
+      competitiveMoats: [
+        {
+          title: "India's Premier Private Banking Giant",
+          description: 'Largest private lender with ₹25+ Lakh Crore balance sheet, 8,800+ branches and 90M+ retail customers.',
+          icon: 'account_balance',
+        },
+        {
+          title: 'Sticky Low-Cost CASA Deposit Franchise',
+          description: 'High CASA ratio (~37-40%) delivers structural cost-of-funds advantage over non-bank financial lenders.',
+          icon: 'savings',
+        },
+        {
+          title: 'Pristine Underwriting & Asset Quality',
+          description: 'Historical Gross NPA maintained under 1.4% and net NPA under 0.40% across credit cycles.',
+          icon: 'verified_user',
+        },
+        {
+          title: 'Comprehensive Wealth & Distribution Cross-Sell',
+          description: 'Integrated platform offering retail mortgages, credit cards, auto loans, SME working capital, and forex.',
+          icon: 'credit_card',
+        },
+      ],
+      keySubsidiaries: [
+        { name: 'HDB Financial Services Ltd', focus: 'Retail Non-Banking Lending (NBFC) & Secured SME Loans', ownership: '94.6% Subsidiary' },
+        { name: 'HDFC Securities Ltd', focus: 'Retail and Institutional Equities Brokerage & Digital Wealth Tech', ownership: '95.1% Subsidiary' },
+        { name: 'HDFC Life Insurance Co Ltd', focus: 'Life Insurance, Annuities & Pension Products', ownership: '50.4% Subsidiary' },
+        { name: 'HDFC AMC Ltd', focus: 'Mutual Fund Asset Management & Institutional PMS', ownership: '52.5% Subsidiary' },
+      ],
+      growthCatalysts: [
+        'Rapid physical branch expansion targeting 1,000 new semi-urban and rural locations per year',
+        'Cross-selling banking accounts and credit cards to 30M+ newly onboarded HDFC Ltd mortgage customers',
+        'PayZapp and SmartGateway digital payment ecosystem processing record digital retail transaction volumes',
+        'Proposed potential public listing (IPO) of HDB Financial Services unlocking significant subsidiary value',
+      ],
+      keyRisks: [
+        'Post-merger loan-to-deposit (LDR) ratio elevated around 100%, requiring sustained deposit growth',
+        'RBI regulatory mandates increasing risk weights on unsecured retail loans and personal credit',
+        'Cyclical compression in Net Interest Margin (NIM) during domestic monetary policy rate transitions',
+      ],
+    },
   },
   INFY: {
     symbol: 'INFY',
@@ -324,6 +471,55 @@ export const STOCKS_DATA: Record<string, StockData> = {
       { quarter: 'Q1 FY25', revenueCr: 39315, netProfitCr: 6368, marginPercent: 16.20, yoyGrowth: 7.1 },
       { quarter: 'Q4 FY24', revenueCr: 37923, netProfitCr: 7969, marginPercent: 21.01, yoyGrowth: 30.0 },
     ],
+    corporateDetails: {
+      managingDirector: 'Salil Parekh (CEO & Managing Director)',
+      cfo: 'Jayesh Sanghrajka (Chief Financial Officer)',
+      foundedYear: 1981,
+      headquarters: 'Electronics City, Hosur Road, Bengaluru, Karnataka 560100',
+      employeesCount: '317,000+ Engineers & Consultants worldwide',
+      isin: 'INE009A01021',
+      listingDate: '14 June 1993',
+      websiteUrl: 'https://www.infosys.com',
+      competitiveMoats: [
+        {
+          title: 'Cobalt Cloud & Topaz Generative AI Suites',
+          description: 'Comprehensive enterprise AI platforms with 300+ pre-built solution blueprints and 100M+ lines of AI generated code.',
+          icon: 'smart_toy',
+        },
+        {
+          title: 'Finacle Core Banking Ecosystem',
+          description: 'Powers financial operations for 1.3+ Billion bank accounts across 100+ countries with near-zero downtime.',
+          icon: 'account_tree',
+        },
+        {
+          title: 'Global Delivery Model & Blue-Chip Client Trust',
+          description: 'Pioneered offshore IT outsourcing with 95%+ repeat enterprise business from Global 2000 companies.',
+          icon: 'handshake',
+        },
+        {
+          title: 'Capital Return Commitment to Shareholders',
+          description: 'Disciplined dividend policy distributing 85% of cumulative free cash flow through payouts and buybacks.',
+          icon: 'payments',
+        },
+      ],
+      keySubsidiaries: [
+        { name: 'Infosys BPM Limited', focus: 'Business Process Management, Digital Customer Ops & AI Workflows', ownership: '100% Owned' },
+        { name: 'EdgeVerve Systems Limited', focus: 'Finacle Core Banking & AssistEdge Robotic Process Automation', ownership: '100% Owned' },
+        { name: 'Panaya Ltd', focus: 'SaaS Change Intelligence for SAP, Salesforce and Oracle Cloud migrations', ownership: '100% Subsidiary' },
+        { name: 'WongDoody Inc', focus: 'Human-Centered Digital Experience Design and Creative Brand Strategy', ownership: '100% Subsidiary' },
+      ],
+      growthCatalysts: [
+        'Rapid enterprise adoption of Infosys Topaz GenAI suite with large enterprise pilot conversions',
+        'Large mega-deal pipeline ($2.4B+ TCV in recent quarters) driven by European digital transformations',
+        'Finacle software-as-a-service (SaaS) cloud deployments generating high-margin annual recurring revenues (ARR)',
+        'Strategic expansions in AI engineering centers across Indianapolis, Frankfurt, and Singapore',
+      ],
+      keyRisks: [
+        'Discretionary client spending hesitation in US and European BFSI and Telecom verticals',
+        'Margin pressure from wage inflation, offshore-onshore mix normalization, and AI automation transitions',
+        'Cross-currency volatility and fluctuations across USD, Euro, GBP and AUD relative to INR',
+      ],
+    },
   },
   TATAMOTORS: {
     symbol: 'TATAMOTORS',
@@ -405,6 +601,55 @@ export const STOCKS_DATA: Record<string, StockData> = {
       { quarter: 'Q1 FY25', revenueCr: 108048, netProfitCr: 5566, marginPercent: 5.15, yoyGrowth: 73.8 },
       { quarter: 'Q4 FY24', revenueCr: 119986, netProfitCr: 17528, marginPercent: 14.61, yoyGrowth: 218.0 },
     ],
+    corporateDetails: {
+      managingDirector: 'Girish Wagh (Executive Director) / Adrian Mardell (JLR CEO)',
+      cfo: 'P.B. Balaji (Group Chief Financial Officer)',
+      foundedYear: 1945,
+      headquarters: 'Bombay House, 24 Homi Mody Street, Fort, Mumbai 400001',
+      employeesCount: '81,000+ Worldwide across Jaguar Land Rover & India',
+      isin: 'INE155A01022',
+      listingDate: '15 November 1955',
+      websiteUrl: 'https://www.tatamotors.com',
+      competitiveMoats: [
+        {
+          title: 'Domestic Electric Vehicle Leadership',
+          description: 'Pioneered Indian consumer EV adoption with ~70% market share (Nexon EV, Punch EV, Curvv EV, Tiago EV).',
+          icon: 'electric_car',
+        },
+        {
+          title: 'India\'s #1 Commercial Vehicle Franchise',
+          description: 'Dominant market share (>40%) in medium and heavy commercial trucks, buses, and small commercial logistics.',
+          icon: 'local_shipping',
+        },
+        {
+          title: 'Luxury Brand Power & Order Book (JLR)',
+          description: 'High-margin luxury SUVs (Range Rover, Defender, Range Rover Sport) with 145,000+ order backlog supporting cash flows.',
+          icon: 'directions_car',
+        },
+        {
+          title: 'Transformative Demerger Value Unlock',
+          description: 'Approved separation into two pure-play listed giants: Commercial Vehicles and Luxury/Passenger Electric Vehicles.',
+          icon: 'call_split',
+        },
+      ],
+      keySubsidiaries: [
+        { name: 'Jaguar Land Rover Automotive PLC', focus: 'Luxury British Automotive Manufacturing & Pure Luxury EV Architecture', ownership: '100% Owned' },
+        { name: 'Tata Passenger Electric Mobility', focus: 'Pure-electric Vehicle Architectures (acti.ev, EMA Platforms)', ownership: '100% Subsidiary' },
+        { name: 'Tata Daewoo Commercial Vehicle', focus: 'Heavy Duty Commercial Vehicle Manufacturing in Gunsan, South Korea', ownership: '100% Subsidiary' },
+        { name: 'Tata Technologies Ltd (Affiliate)', focus: 'Automotive Product Engineering, Software-Defined Vehicles & ER&D', ownership: '53.4% Shareholding' },
+      ],
+      growthCatalysts: [
+        'Execution of corporate demerger separating CV and PV/EV businesses to sharpen capital allocation',
+        'JLR £18 Billion "Reimagine" electrification transition with all-electric Range Rover launching globally',
+        'Commercial scale-up of dedicated Agratas battery gigafactory delivering localized battery cell supplies',
+        'Net automotive cash status achieved, drastically lowering group interest expense burdens',
+      ],
+      keyRisks: [
+        'Macroeconomic demand sentiment in European, UK and Chinese luxury passenger vehicle markets',
+        'Raw material price inflation across automotive-grade steel, aluminium, copper, and battery minerals',
+        'Intensifying competition from foreign pure-EV original equipment manufacturers (OEMs) entering India',
+      ],
+    },
   },
 };
 
