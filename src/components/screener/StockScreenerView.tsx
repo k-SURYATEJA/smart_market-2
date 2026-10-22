@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { STOCKS_DATA } from '../../data/mockData';
+import { StockData } from '../../types/market';
+import { StockLiveDetailsModal } from './StockLiveDetailsModal';
 
 interface StockScreenerViewProps {
   onSelectStock: (symbol: string) => void;
@@ -13,14 +15,30 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
   const [sortBy, setSortBy] = useState<'marketCap' | 'pe' | 'change' | 'price'>('marketCap');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
+  // Live TradingView Stock Details Modal State (no navigation away)
+  const [activeStock, setActiveStock] = useState<StockData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const stocks = Object.values(STOCKS_DATA);
+
+  const handleOpenStockDetails = (stock: StockData) => {
+    setActiveStock(stock);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const filteredStocks = stocks.filter(s => {
     const matchesSearch =
       s.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSector =
-      selectedSector === 'All' || s.sector.toLowerCase().includes(selectedSector.toLowerCase());
+      selectedSector === 'All' ||
+      s.sector.toLowerCase().includes(selectedSector.toLowerCase()) ||
+      (selectedSector === 'Telecom' && s.sector.toLowerCase().includes('telecom')) ||
+      (selectedSector === 'Infra' && s.sector.toLowerCase().includes('infra'));
     return matchesSearch && matchesSector;
   });
 
@@ -28,8 +46,20 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
     let valA = 0;
     let valB = 0;
     if (sortBy === 'marketCap') {
-      valA = a.symbol === 'RELIANCE' ? 2018400 : a.symbol === 'TCS' ? 1492300 : a.symbol === 'HDFCBANK' ? 1329800 : a.symbol === 'INFY' ? 786500 : 346200;
-      valB = b.symbol === 'RELIANCE' ? 2018400 : b.symbol === 'TCS' ? 1492300 : b.symbol === 'HDFCBANK' ? 1329800 : b.symbol === 'INFY' ? 786500 : 346200;
+      const getCapVal = (sym: string) => {
+        if (sym === 'RELIANCE') return 2018400;
+        if (sym === 'TCS') return 1492300;
+        if (sym === 'HDFCBANK') return 1329800;
+        if (sym === 'BHARTIARTL') return 982400;
+        if (sym === 'ICICIBANK') return 878200;
+        if (sym === 'INFY') return 786500;
+        if (sym === 'SBIN') return 730400;
+        if (sym === 'ITC') return 615400;
+        if (sym === 'LT') return 506200;
+        return 346200;
+      };
+      valA = getCapVal(a.symbol);
+      valB = getCapVal(b.symbol);
     } else if (sortBy === 'pe') {
       valA = a.peRatio;
       valB = b.peRatio;
@@ -49,16 +79,21 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
       <section className="w-full bg-surface-container rounded-xl shadow-md p-space-md flex flex-col gap-space-md border border-outline-variant/20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
           <div>
-            <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface">
-              NSE Stock Screener &amp; Filters
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface">
+                NSE Technical Screener &amp; Live Information
+              </h2>
+              <span className="px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/40 font-mono text-[10px] font-bold uppercase tracking-wider">
+                TradingView Powered
+              </span>
+            </div>
             <p className="font-body-sm text-body-sm text-outline mt-0.5">
-              Screen across fundamental ratios, valuation multiples, and technical momentum.
+              Screen across Indian equities. Click any asset to open live TradingView charts, indicators, and real-time feeds without leaving the screener.
             </p>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-mono-xs text-mono-xs px-2.5 py-1 rounded bg-surface-container-highest text-primary font-bold">
-              {filteredStocks.length} Results
+              {filteredStocks.length} Assets Found
             </span>
           </div>
         </div>
@@ -74,14 +109,14 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
               type="text"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              placeholder="Search by company or ticker..."
+              placeholder="Search by company or ticker (e.g. Reliance, TCS)..."
               className="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-lg pl-9 pr-3 py-2 font-mono-xs text-mono-xs text-on-surface placeholder:text-outline focus:border-primary focus:outline-none"
             />
           </div>
 
           {/* Sector filter */}
           <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-1">
-            {['All', 'Oil & Gas', 'Technology', 'Banking', 'Auto'].map(sec => (
+            {['All', 'Oil & Gas', 'Technology', 'Banking', 'Auto', 'Telecom', 'FMCG', 'Infra'].map(sec => (
               <button
                 key={sec}
                 onClick={() => setSelectedSector(sec)}
@@ -129,7 +164,7 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
         <table className="w-full text-left font-mono-xs text-mono-xs">
           <thead>
             <tr className="bg-surface-container-lowest text-outline font-label-sm uppercase">
-              <th className="py-3 px-3">Company / Ticker</th>
+              <th className="py-3 px-3">Company / Asset</th>
               <th className="py-3 px-3 text-right">LTP (₹)</th>
               <th className="py-3 px-3 text-right">Day %</th>
               <th className="py-3 px-3 text-right">Market Cap</th>
@@ -137,26 +172,27 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
               <th className="py-3 px-3 text-right">P/B</th>
               <th className="py-3 px-3 text-right">52W Position</th>
               <th className="py-3 px-3 text-right">Div Yield</th>
-              <th className="py-3 px-3 text-center">Action</th>
+              <th className="py-3 px-3 text-center">Live Analysis</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-outline-variant/20">
             {filteredStocks.map(stock => (
               <tr
                 key={stock.symbol}
-                className="hover:bg-surface-container-high transition-colors group"
+                onClick={() => handleOpenStockDetails(stock)}
+                className="hover:bg-surface-container-high transition-colors group cursor-pointer"
               >
-                <td
-                  onClick={() => onSelectStock(stock.symbol)}
-                  className="py-3 px-3 cursor-pointer"
-                >
+                <td className="py-3 px-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center font-bold text-primary shrink-0">
+                    <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center font-bold text-primary shrink-0 group-hover:scale-105 transition-transform">
                       {stock.symbol.slice(0, 3)}
                     </div>
                     <div>
-                      <div className="font-semibold text-on-surface group-hover:text-primary transition-colors">
-                        {stock.name}
+                      <div className="font-semibold text-on-surface group-hover:text-primary transition-colors flex items-center gap-1.5">
+                        <span>{stock.name}</span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/5 font-mono text-slate-400">
+                          {stock.tradingViewSymbol || `BSE:${stock.symbol}`}
+                        </span>
                       </div>
                       <div className="text-[10px] text-outline">
                         {stock.symbol} · {stock.sector}
@@ -200,12 +236,16 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
                 </td>
                 <td className="py-3 px-3 text-center">
                   <button
-                    onClick={() => onSelectStock(stock.symbol)}
-                    className="px-3 py-1 rounded bg-primary text-black font-label-sm font-bold hover:bg-primary-fixed shadow-[0_0_8px_rgba(0,208,108,0.25)] transition-colors cursor-pointer inline-flex items-center gap-1"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenStockDetails(stock);
+                    }}
+                    className="px-3 py-1 rounded-lg bg-primary text-black font-label-sm font-bold hover:bg-primary-fixed shadow-[0_0_8px_rgba(0,208,108,0.25)] transition-all cursor-pointer inline-flex items-center gap-1"
                     type="button"
+                    title="Open live TradingView charts and details"
                   >
-                    <span className="material-symbols-outlined text-[14px]">show_chart</span>
-                    <span>Analyze</span>
+                    <span className="material-symbols-outlined text-[14px]">query_stats</span>
+                    <span>Live Details</span>
                   </button>
                 </td>
               </tr>
@@ -213,6 +253,18 @@ export const StockScreenerView: React.FC<StockScreenerViewProps> = ({
           </tbody>
         </table>
       </div>
+
+      {/* Interactive Stock Live Details Modal with TradingView Integration (Stays on Screener) */}
+      {activeStock && (
+        <StockLiveDetailsModal
+          stock={activeStock}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          allStocks={filteredStocks}
+          onSelectStock={(nextStock) => setActiveStock(nextStock)}
+          onOpenFullDeepDive={onSelectStock}
+        />
+      )}
     </div>
   );
 };

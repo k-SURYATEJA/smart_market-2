@@ -42,6 +42,7 @@ export interface StockData {
   symbol: string;
   name: string;
   tickerTag: string;
+  tradingViewSymbol?: string;
   exchange: string;
   sector: string;
   price: number;
