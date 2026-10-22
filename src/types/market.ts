@@ -6,6 +6,7 @@ export type ScreenId =
   | 'dashboard'
   | 'market-charts'
   | 'indian-stocks'
+  | 'indicators'
   | 'forex'
   | 'indices-and-sectors'
   | 'stock-screener'

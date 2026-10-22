@@ -17,6 +17,7 @@ import { DashboardView } from './components/dashboard/DashboardView';
 import { StockScreenerView } from './components/screener/StockScreenerView';
 import { TradingTerminalView } from './components/terminal/TradingTerminalView';
 import { ForexTerminalView } from './components/forex/ForexTerminalView';
+import { IndicatorsExploreView } from './components/indicators/IndicatorsExploreView';
 import { TradingJournalView } from './components/journal/TradingJournalView';
 import { RiskRewardCalculatorView } from './components/calculator/RiskRewardCalculatorView';
 import { ImpactedNewsView } from './components/news/ImpactedNewsView';
@@ -320,9 +321,9 @@ export default function App() {
                 />
               )}
 
-              {/* Forex & Currency Technicals */}
-              {(currentScreen === 'forex' || currentScreen === 'forex-terminal') && (
-                <ForexTerminalView />
+              {/* Technical Indicators to Explore (TradingView Standards) */}
+              {(currentScreen === 'indicators' || currentScreen === 'forex' || currentScreen === 'forex-terminal') && (
+                <IndicatorsExploreView />
               )}
 
               {/* Indices & Sector Breadth */}

@@ -284,10 +284,10 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => onNavigateToSection('forex')}
+                  onClick={() => onNavigateToSection('indicators')}
                   className="text-sm sm:text-base font-bold text-[#F7F7F8] hover:text-[#FF7900] flex items-center gap-1.5 transition-colors cursor-pointer group py-2"
                 >
-                  <span>View Market Tools</span>
+                  <span>Explore Technical Indicators</span>
                   <span className="group-hover:translate-x-1 transition-transform text-[#FF7900]">→</span>
                 </button>
               </div>
@@ -417,19 +417,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                   ========================================================================= */}
               <div className="w-full mt-4 grid grid-cols-3 gap-2.5 sm:gap-3">
                 
-                {/* Feature 1: Market Analysis */}
+                {/* Feature 1: Indicators to Explore */}
                 <div 
-                  onClick={() => onNavigateToSection('forex')}
+                  onClick={() => onNavigateToSection('indicators')}
                   className="p-3 sm:p-3.5 rounded-xl bg-gradient-to-b from-[#251A10] to-[#1A1613] border border-[#FF7900]/40 hover:border-[#FF7900] transition-all cursor-pointer text-center group shadow-md"
                 >
                   <div className="w-7 h-7 mx-auto rounded-lg bg-[#FF7900]/20 text-[#FF9B42] flex items-center justify-center mb-1.5 group-hover:scale-110 transition-transform">
-                    <span className="material-symbols-outlined text-[16px]">candlestick_chart</span>
+                    <span className="material-symbols-outlined text-[16px]">query_stats</span>
                   </div>
                   <h4 className="text-[12px] sm:text-[13px] font-extrabold text-white tracking-tight uppercase leading-tight">
-                    Market Analysis
+                    Indicators
                   </h4>
                   <p className="text-[10px] text-[#A4A7B0] font-medium mt-0.5 leading-snug">
-                    Tools for price action.
+                    RSI, EMA, VWAP &amp; more.
                   </p>
                 </div>
 
@@ -488,10 +488,10 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
             <button
               type="button"
-              onClick={() => onNavigateToSection('forex')}
+              onClick={() => onNavigateToSection('indicators')}
               className="text-xs font-bold text-[#FF7900] hover:text-[#FF9B42] flex items-center gap-1 cursor-pointer transition-colors"
             >
-              <span>Launch Full Forex Terminal</span>
+              <span>Explore Technical Indicators</span>
               <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
             </button>
           </div>

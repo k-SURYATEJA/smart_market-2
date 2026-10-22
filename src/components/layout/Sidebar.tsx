@@ -185,16 +185,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <span>Order Flow &amp; Depth</span>
                   </button>
 
-                  {/* Forex & Currencies */}
+                  {/* Technical Indicators to Explore (TradingView Standards) */}
                   <button
                     type="button"
-                    onClick={() => handleLinkClick('forex')}
+                    onClick={() => handleLinkClick('indicators')}
                     className={`py-1.5 px-space-sm rounded-lg text-left font-label-md text-label-md transition-all flex items-center gap-2 ${
-                      isScreenActive('forex') || isScreenActive('forex-terminal') ? activeLinkClass : inactiveLinkClass
+                      isScreenActive('indicators') || isScreenActive('forex') || isScreenActive('forex-terminal') ? activeLinkClass : inactiveLinkClass
                     }`}
                   >
-                    <span className="material-symbols-outlined text-[16px]">currency_exchange</span>
-                    <span>Forex Technicals</span>
+                    <span className="material-symbols-outlined text-[16px]">query_stats</span>
+                    <span>Indicators to Explore</span>
                   </button>
 
                   {/* SIP & Investment Calculator */}
