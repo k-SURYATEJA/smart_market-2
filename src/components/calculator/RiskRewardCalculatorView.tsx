@@ -36,7 +36,6 @@ export const RiskRewardCalculatorView: React.FC = () => {
 
   // UI state
   const [showSchedule, setShowSchedule] = useState<boolean>(false);
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState<boolean>(false);
 
   // Calculations
   const results = useMemo(() => {
@@ -125,7 +124,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
       <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00D09C] to-[#00A87D] flex items-center justify-center text-black font-black shadow-[0_0_15px_rgba(0,208,156,0.35)]">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF7900] to-[#FF9B42] flex items-center justify-center text-black font-black shadow-[0_0_15px_rgba(255,121,0,0.35)]">
               <span className="material-symbols-outlined text-[24px]">calculate</span>
             </div>
             <div>
@@ -133,7 +132,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                   SIP Calculator
                 </h1>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#00D09C]/15 text-[#00D09C] border border-[#00D09C]/30 text-[10px] font-bold uppercase tracking-wider font-mono">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#FF7900]/15 text-[#FF7900] border border-[#FF7900]/30 text-[10px] font-bold uppercase tracking-wider font-mono">
                   Groww Standard
                 </span>
               </div>
@@ -151,7 +150,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
             onClick={() => setMode('sip')}
             className={`px-6 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               mode === 'sip'
-                ? 'bg-[#00D09C] text-black shadow-[0_0_12px_rgba(0,208,156,0.4)]'
+                ? 'bg-[#FF7900] text-black shadow-[0_0_12px_rgba(255,121,0,0.4)]'
                 : 'text-slate-300 hover:text-white'
             }`}
           >
@@ -162,7 +161,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
             onClick={() => setMode('lumpsum')}
             className={`px-6 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               mode === 'lumpsum'
-                ? 'bg-[#00D09C] text-black shadow-[0_0_12px_rgba(0,208,156,0.4)]'
+                ? 'bg-[#FF7900] text-black shadow-[0_0_12px_rgba(255,121,0,0.4)]'
                 : 'text-slate-300 hover:text-white'
             }`}
           >
@@ -183,8 +182,8 @@ export const RiskRewardCalculatorView: React.FC = () => {
               <label className="text-xs sm:text-sm font-semibold text-slate-300">
                 {mode === 'sip' ? 'Monthly investment' : 'Total investment'}
               </label>
-              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#00D09C] transition-colors shadow-inner">
-                <span className="text-[#00D09C] mr-1 text-sm font-sans font-bold">₹</span>
+              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#FF7900] transition-colors shadow-inner">
+                <span className="text-[#FF7900] mr-1 text-sm font-sans font-bold">₹</span>
                 <input
                   type="number"
                   min={mode === 'sip' ? 500 : 1000}
@@ -213,7 +212,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 if (mode === 'sip') setMonthlyInvestment(val);
                 else setTotalInvestment(val);
               }}
-              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#00D09C]"
+              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#FF7900]"
             />
 
             {/* Preset quick buttons */}
@@ -227,7 +226,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                       onClick={() => setMonthlyInvestment(amt)}
                       className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
                         monthlyInvestment === amt
-                          ? 'bg-[#00D09C]/20 text-[#00D09C] border border-[#00D09C]/40'
+                          ? 'bg-[#FF7900]/20 text-[#FF7900] border border-[#FF7900]/40'
                           : 'bg-[#0b1020] text-slate-300 hover:text-white border border-white/10'
                       }`}
                     >
@@ -251,7 +250,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                       onClick={() => setTotalInvestment(amt)}
                       className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
                         totalInvestment === amt
-                          ? 'bg-[#00D09C]/20 text-[#00D09C] border border-[#00D09C]/40'
+                          ? 'bg-[#FF7900]/20 text-[#FF7900] border border-[#FF7900]/40'
                           : 'bg-[#0b1020] text-slate-300 hover:text-white border border-white/10'
                       }`}
                     >
@@ -272,7 +271,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 </label>
                 <span className="text-[11px] text-slate-400">Historical equity returns: ~12-15%</span>
               </div>
-              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#00D09C] transition-colors shadow-inner">
+              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#FF7900] transition-colors shadow-inner">
                 <input
                   type="number"
                   min={1}
@@ -282,7 +281,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                   onChange={(e) => setExpectedReturnRate(Number(e.target.value))}
                   className="bg-transparent text-white font-mono font-bold text-base outline-none w-16 text-right"
                 />
-                <span className="text-[#00D09C] ml-1 text-sm font-sans font-bold">%</span>
+                <span className="text-[#FF7900] ml-1 text-sm font-sans font-bold">%</span>
               </div>
             </div>
 
@@ -294,7 +293,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
               step={0.5}
               value={expectedReturnRate}
               onChange={(e) => setExpectedReturnRate(Number(e.target.value))}
-              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#00D09C]"
+              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#FF7900]"
             />
 
             {/* Return Benchmark Presets */}
@@ -311,7 +310,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                   onClick={() => setExpectedReturnRate(bench.rate)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                     expectedReturnRate === bench.rate
-                      ? 'bg-[#00D09C]/20 text-[#00D09C] border border-[#00D09C]/40 font-bold'
+                      ? 'bg-[#FF7900]/20 text-[#FF7900] border border-[#FF7900]/40 font-bold'
                       : 'bg-[#0b1020] text-slate-300 hover:text-white border border-white/10'
                   }`}
                 >
@@ -330,7 +329,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 </label>
                 <span className="text-[11px] text-slate-400">Longer tenure unlocks exponential compounding</span>
               </div>
-              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#00D09C] transition-colors shadow-inner">
+              <div className="flex items-center bg-[#0b1020] border border-white/20 rounded-xl px-3 py-1.5 text-white font-mono font-bold text-base focus-within:border-[#FF7900] transition-colors shadow-inner">
                 <input
                   type="number"
                   min={1}
@@ -340,7 +339,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                   onChange={(e) => setTimePeriod(Number(e.target.value))}
                   className="bg-transparent text-white font-mono font-bold text-base outline-none w-14 text-right"
                 />
-                <span className="text-[#00D09C] ml-1 text-sm font-sans font-bold">Yr</span>
+                <span className="text-[#FF7900] ml-1 text-sm font-sans font-bold">Yr</span>
               </div>
             </div>
 
@@ -352,7 +351,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
               step={1}
               value={timePeriod}
               onChange={(e) => setTimePeriod(Number(e.target.value))}
-              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#00D09C]"
+              className="w-full h-2 bg-white/15 rounded-lg appearance-none cursor-pointer accent-[#FF7900]"
             />
 
             {/* Tenure presets */}
@@ -364,7 +363,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                   onClick={() => setTimePeriod(yr)}
                   className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
                     timePeriod === yr
-                      ? 'bg-[#00D09C]/20 text-[#00D09C] border border-[#00D09C]/40'
+                      ? 'bg-[#FF7900]/20 text-[#FF7900] border border-[#FF7900]/40'
                       : 'bg-[#0b1020] text-slate-300 hover:text-white border border-white/10'
                   }`}
                 >
@@ -375,14 +374,14 @@ export const RiskRewardCalculatorView: React.FC = () => {
           </div>
 
           {/* Quick Insights Banner */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-[#00D09C]/10 via-[#00D09C]/5 to-transparent border border-[#00D09C]/30 flex items-start gap-3 mt-1">
-            <span className="material-symbols-outlined text-[#00D09C] text-[22px] mt-0.5 shrink-0">insights</span>
+          <div className="p-4 rounded-xl bg-gradient-to-r from-[#FF7900]/10 via-[#FF7900]/5 to-transparent border border-[#FF7900]/30 flex items-start gap-3 mt-1">
+            <span className="material-symbols-outlined text-[#FF7900] text-[22px] mt-0.5 shrink-0">insights</span>
             <div className="text-xs text-slate-200 leading-relaxed">
               <strong className="text-white block font-bold mb-0.5">
                 Compounding Multiplier: {results.multiplier}x Initial Principal
               </strong>
               In {timePeriod} years, your estimated wealth gains exceed your invested amount by{' '}
-              <span className="text-[#00D09C] font-bold">
+              <span className="text-[#FF7900] font-bold">
                 {results.returnsPct >= 50 ? `${results.returnsPct}% returns share` : `₹${formatINR(results.estReturns)}`}
               </span>
               .
@@ -402,8 +401,8 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 <span className="text-slate-300">Invested amount ({results.investedPct}%)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-[#00D09C] inline-block shadow-sm" />
-                <span className="text-[#00D09C] font-bold">Est. returns ({results.returnsPct}%)</span>
+                <span className="w-3 h-3 rounded-full bg-[#FF7900] inline-block shadow-sm" />
+                <span className="text-[#FF7900] font-bold">Est. returns ({results.returnsPct}%)</span>
               </div>
             </div>
 
@@ -435,7 +434,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                   cx="100"
                   cy="100"
                   r={radius}
-                  stroke="#00D09C"
+                  stroke="#FF7900"
                   strokeWidth="24"
                   fill="transparent"
                   strokeDasharray={`${returnsDash} ${circumference}`}
@@ -451,7 +450,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                 <span className="text-lg font-black text-white font-mono mt-0.5">
                   {formatCompactINR(results.totalValue)}
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#00D09C]/15 text-[#00D09C] mt-1">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FF7900]/15 text-[#FF7900] mt-1">
                   {results.multiplier}x Wealth
                 </span>
               </div>
@@ -467,7 +466,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
 
             <div className="flex items-center justify-between pb-2 border-b border-white/10 text-xs">
               <span className="text-slate-400 font-sans">Est. returns</span>
-              <span className="text-[#00D09C] font-bold text-sm">+₹{formatINR(results.estReturns)}</span>
+              <span className="text-[#FF7900] font-bold text-sm">+₹{formatINR(results.estReturns)}</span>
             </div>
 
             <div className="flex items-center justify-between pt-1">
@@ -478,19 +477,11 @@ export const RiskRewardCalculatorView: React.FC = () => {
 
           {/* Action CTA & Schedule Toggle */}
           <div className="flex flex-col gap-2.5">
-            <button
-              type="button"
-              onClick={() => setIsSuccessModalOpen(true)}
-              className="w-full py-3.5 px-6 rounded-xl bg-[#00D09C] hover:bg-[#00b98a] text-black font-black text-sm tracking-wide transition-all shadow-[0_0_20px_rgba(0,208,156,0.35)] cursor-pointer flex items-center justify-center gap-2"
-            >
-              <span>{mode === 'sip' ? 'START SIP NOW' : 'INVEST LUMPSUM'}</span>
-              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
-            </button>
 
             <button
               type="button"
               onClick={() => setShowSchedule(!showSchedule)}
-              className="w-full py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer border border-white/10"
+              className="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-[#FF7900]/10 hover:border-[#FF7900]/30 text-slate-200 hover:text-white text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer border border-white/10 shadow-sm"
             >
               <span className="material-symbols-outlined text-[16px]">calendar_month</span>
               <span>{showSchedule ? 'Hide Compounding Schedule' : 'View Year-by-Year Schedule'}</span>
@@ -505,14 +496,14 @@ export const RiskRewardCalculatorView: React.FC = () => {
           <div className="flex items-center justify-between pb-3 border-b border-white/15">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#00D09C] text-[20px]">table_chart</span>
+                <span className="material-symbols-outlined text-[#FF7900] text-[20px]">table_chart</span>
                 <span>Yearly Compounding Breakdown Schedule</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
                 Progressive accumulation schedule at {expectedReturnRate}% annualized return.
               </p>
             </div>
-            <span className="text-xs font-mono font-bold text-[#00D09C] bg-[#00D09C]/10 px-3 py-1 rounded-lg border border-[#00D09C]/30">
+            <span className="text-xs font-mono font-bold text-[#FF7900] bg-[#FF7900]/10 px-3 py-1 rounded-lg border border-[#FF7900]/30">
               {timePeriod} Years Tenure
             </span>
           </div>
@@ -535,7 +526,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
                       Year {row.year} ({new Date().getFullYear() + row.year})
                     </td>
                     <td className="py-2.5 px-3 text-right text-slate-300">₹{formatINR(row.invested)}</td>
-                    <td className="py-2.5 px-3 text-right text-[#00D09C] font-semibold">+₹{formatINR(row.returns)}</td>
+                    <td className="py-2.5 px-3 text-right text-[#FF7900] font-semibold">+₹{formatINR(row.returns)}</td>
                     <td className="py-2.5 px-3 text-right font-bold text-white">₹{formatINR(row.total)}</td>
                     <td className="py-2.5 px-3 text-center">
                       <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-slate-200">
@@ -554,7 +545,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl flex flex-col gap-2">
           <div className="flex items-center gap-2 text-white font-bold text-sm">
-            <span className="material-symbols-outlined text-[#00D09C] text-[20px]">help_center</span>
+            <span className="material-symbols-outlined text-[#FF7900] text-[20px]">help_center</span>
             <h4>What is a SIP?</h4>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed mt-1">
@@ -564,7 +555,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
 
         <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl flex flex-col gap-2">
           <div className="flex items-center gap-2 text-white font-bold text-sm">
-            <span className="material-symbols-outlined text-[#00D09C] text-[20px]">functions</span>
+            <span className="material-symbols-outlined text-[#FF7900] text-[20px]">functions</span>
             <h4>Mathematical Formula</h4>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed font-mono mt-1">
@@ -577,7 +568,7 @@ export const RiskRewardCalculatorView: React.FC = () => {
 
         <div className="bg-[#131b2e] border border-white/15 rounded-2xl p-5 shadow-xl flex flex-col gap-2">
           <div className="flex items-center gap-2 text-white font-bold text-sm">
-            <span className="material-symbols-outlined text-[#00D09C] text-[20px]">currency_rupee</span>
+            <span className="material-symbols-outlined text-[#FF7900] text-[20px]">currency_rupee</span>
             <h4>Rupee Cost Averaging</h4>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed mt-1">
@@ -587,44 +578,6 @@ export const RiskRewardCalculatorView: React.FC = () => {
       </div>
 
       {/* Success / Confirmation Modal */}
-      {isSuccessModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#111726] border border-[#00D09C]/40 rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in-95">
-            <div className="w-12 h-12 rounded-xl bg-[#00D09C]/20 border border-[#00D09C]/50 text-[#00D09C] flex items-center justify-center mx-auto">
-              <span className="material-symbols-outlined text-[28px]">verified</span>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-black text-white">SIP Investment Plan Configured</h3>
-              <p className="text-xs text-slate-300 mt-1">
-                Your portfolio goal target of <strong className="text-white">₹{formatINR(results.totalValue)}</strong> in {timePeriod} years has been staged.
-              </p>
-            </div>
-
-            <div className="bg-[#0b1020] border border-white/10 rounded-xl p-3.5 space-y-2 text-xs font-mono">
-              <div className="flex justify-between text-slate-300">
-                <span>Monthly Allocation:</span>
-                <span className="text-white font-bold">₹{formatINR(mode === 'sip' ? monthlyInvestment : totalInvestment)}</span>
-              </div>
-              <div className="flex justify-between text-slate-300">
-                <span>Target Return:</span>
-                <span className="text-[#00D09C] font-bold">{expectedReturnRate}% CAGR</span>
-              </div>
-              <div className="flex justify-between text-slate-300">
-                <span>Wealth Gain:</span>
-                <span className="text-[#00D09C] font-bold">+₹{formatINR(results.estReturns)}</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setIsSuccessModalOpen(false)}
-              className="w-full py-3 rounded-xl bg-[#00D09C] text-black font-extrabold text-xs hover:bg-[#00b98a] transition-colors cursor-pointer"
-            >
-              Close &amp; Return to Calculator
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
