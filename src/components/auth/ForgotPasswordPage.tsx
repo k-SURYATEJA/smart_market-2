@@ -20,12 +20,9 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
       return;
     }
 
-    setError(null);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-    }, 600);
+    setIsLoading(false);
+    setIsSubmitted(false);
+    setError('Password recovery is not available yet. No reset email was sent. Please contact the administrator for assistance.');
   };
 
   return (
@@ -80,7 +77,7 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                 Reset Workstation Access
               </h2>
               <p className="text-xs text-outline mt-1 mb-6 font-normal">
-                Enter your email address and we will dispatch a terminal recovery link to restore your workstation profile.
+                Enter your email address. Password recovery requires a configured server-side identity provider and email service.
               </p>
 
               {error && (
@@ -136,18 +133,12 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
               </div>
 
               <h2 className="text-xl font-bold text-white tracking-tight">
-                Recovery Link Dispatched
+                Password Recovery Not Configured
               </h2>
 
               <p className="text-xs text-outline leading-relaxed font-normal">
-                We have generated a secure password reset link and transmitted it to <span className="text-primary font-bold">{email}</span>.
+                No reset email was sent to <span className="text-primary font-bold">{email}</span>. Configure a server-side identity provider and email delivery service before enabling password recovery.
               </p>
-
-              <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-left text-xs">
-                <span className="text-outline text-[10px] block uppercase mb-1 font-semibold">Temporary Analyst Passcode</span>
-                <span className="text-primary font-mono text-sm tracking-widest font-bold">MP-924-817</span>
-                <span className="text-[11px] text-outline block mt-1 font-normal">Valid for 15 minutes</span>
-              </div>
 
               <div className="pt-2 flex flex-col gap-2">
                 <button
