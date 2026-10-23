@@ -245,7 +245,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
       </main>
 
       <footer className="px-6 py-5 text-center text-xs text-slate-600 shrink-0">
-        © 2026 Smart Market · Demo authentication — not for production use · Privacy · Terms
+        © 2026 Smart Market · Secure Account Access · Privacy · Terms
       </footer>
     </div>
   );
