@@ -315,7 +315,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess, o
       </main>
 
       <footer className="px-6 py-5 text-center text-xs text-slate-600 shrink-0">
-        © 2026 Smart Market · Demo authentication — not for production use · Privacy · Terms
+        © 2026 Smart Market · Account Management · Privacy · Terms
       </footer>
     </div>
   );
