@@ -17,6 +17,16 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // Proxy /api/* calls to the Java Tomcat backend (port 8080)
+      // so the browser never sees a CORS error in development.
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8089',
+          changeOrigin: true,
+          // Tomcat deploys the WAR as /smart-market, so rewrite the path.
+          rewrite: (path: string) => path.replace(/^\/api/, '/smart-market/api'),
+        },
+      },
     },
   };
 });

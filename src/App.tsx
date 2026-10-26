@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScreenId, PriceAlert, UserProfile } from './types/market';
 import { STOCKS_DATA } from './data/mockData';
+import { getActiveSession, clearSession } from './services/authService';
+import { fetchAlerts, saveAlert, deleteAlert } from './services/alertService';
 import { HomePage } from './components/home/HomePage';
 import { LoginPage } from './components/auth/LoginPage';
 import { RegisterPage } from './components/auth/RegisterPage';
@@ -46,15 +48,7 @@ export default function App() {
   const [watchlist, setWatchlist] = useState<string[]>(['RELIANCE', 'TCS', 'HDFCBANK']);
   
   // User Authentication State
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    try {
-      const saved = localStorage.getItem('marketpulse_user');
-      if (saved) return JSON.parse(saved);
-    } catch {
-      // Fallback
-    }
-    return null;
-  });
+  const [user, setUser] = useState<UserProfile | null>(() => getActiveSession());
 
   // Modals state
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -94,6 +88,12 @@ export default function App() {
 
   const [alerts, setAlerts] = useState<PriceAlert[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Load alerts from Oracle whenever the logged-in user changes
+  useEffect(() => {
+    if (!user) { setAlerts([]); return; }
+    fetchAlerts(user.id).then(data => setAlerts(data));
+  }, [user?.id]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -144,22 +144,13 @@ export default function App() {
 
   const handleLoginSuccess = (loggedInUser: UserProfile) => {
     setUser(loggedInUser);
-    try {
-      localStorage.setItem('marketpulse_user', JSON.stringify(loggedInUser));
-    } catch {
-      // Ignore
-    }
     navigateTo('market-charts');
     showToast(`Welcome to Smart Market, ${loggedInUser.name}!`);
   };
 
   const handleLogout = () => {
     setUser(null);
-    try {
-      localStorage.removeItem('marketpulse_user');
-    } catch {
-      // Ignore
-    }
+    clearSession();
     navigateTo('login');
     showToast('Signed out of terminal session. Please sign in to resume.');
   };
@@ -200,8 +191,22 @@ export default function App() {
     }
   };
 
-  const handleSetAlert = (newAlert: PriceAlert) => {
-    setAlerts([...alerts, newAlert]);
+  const handleSetAlert = async (newAlert: PriceAlert) => {
+    if (user) {
+      // Persist to Oracle — backend assigns final id/createdAt
+      const saved = await saveAlert(user.id, {
+        symbol:      newAlert.symbol,
+        targetPrice: newAlert.targetPrice,
+        condition:   newAlert.condition,
+      });
+      if (saved) {
+        setAlerts(prev => [saved, ...prev]);
+        showToast(`Price Alert armed for ${saved.symbol} at ₹${saved.targetPrice.toFixed(2)}`);
+        return;
+      }
+    }
+    // Fallback: keep in local state if backend is unreachable
+    setAlerts(prev => [...prev, newAlert]);
     showToast(`Price Alert armed for ${newAlert.symbol} at ₹${newAlert.targetPrice.toFixed(2)}`);
   };
 

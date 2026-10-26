@@ -1,55 +1,11 @@
-import React, { useState } from 'react';
-
-export interface ResearchNote {
-  id: string;
-  date: string;
-  symbol: string;
-  category: 'Technical Pattern' | 'Fundamental Catalyst' | 'Macro Policy' | 'Earnings Breakdown';
-  setupType: string;
-  keyLevel: string;
-  targetOutlook: string;
-  timeframe: 'Intraday' | 'Swing' | 'Multi-Month';
-  thesis: string;
-}
-
-const INITIAL_NOTES: ResearchNote[] = [
-  {
-    id: 'rn-1',
-    date: '2026-10-08',
-    symbol: 'RELIANCE',
-    category: 'Technical Pattern',
-    setupType: 'Ascending Triangle & S1 Bounce',
-    keyLevel: '₹2,920 - ₹2,950',
-    targetOutlook: '₹3,250 (12M Consensus Target)',
-    timeframe: 'Swing',
-    thesis: 'RIL bounced cleanly off the institutional demand zone S1 with 20 EMA and 50 EMA golden continuation curve. Retail margin expansion and 5G subscriber additions form strong fundamental tailwinds.',
-  },
-  {
-    id: 'rn-2',
-    date: '2026-10-07',
-    symbol: 'TATAMOTORS',
-    category: 'Fundamental Catalyst',
-    setupType: 'JLR Wholesales Margin Expansion',
-    keyLevel: '₹920 Support',
-    targetOutlook: '₹1,120 Resistance Level',
-    timeframe: 'Multi-Month',
-    thesis: 'Defender and Range Rover mix at 74% driving higher EBITDA margin per vehicle. Balance sheet remains net auto-cash positive.',
-  },
-  {
-    id: 'rn-3',
-    date: '2026-10-05',
-    symbol: 'TCS',
-    category: 'Technical Pattern',
-    setupType: 'Cup & Handle Consolidation',
-    keyLevel: '₹4,050 Base Support',
-    targetOutlook: '₹4,480 Fibonacci Extension',
-    timeframe: 'Swing',
-    thesis: 'Operating margin resilient above 24.5%. GenAI mega-deals ramp up converting into billable cash flow.',
-  },
-];
+import React, { useState, useEffect } from 'react';
+import { getActiveSession } from '../../services/authService';
+import { fetchNotes, saveNote, deleteNote, ResearchNote } from '../../services/journalService';
 
 export const TradingJournalView: React.FC = () => {
-  const [notes, setNotes] = useState<ResearchNote[]>(INITIAL_NOTES);
+  const [notes, setNotes] = useState<ResearchNote[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [symbol, setSymbol] = useState('RELIANCE');
   const [category, setCategory] = useState<ResearchNote['category']>('Technical Pattern');
@@ -59,26 +15,50 @@ export const TradingJournalView: React.FC = () => {
   const [timeframe, setTimeframe] = useState<ResearchNote['timeframe']>('Swing');
   const [thesis, setThesis] = useState('');
 
-  const handleAddNote = (e: React.FormEvent) => {
+  // ── Load notes from Oracle backend on mount ──────────────────────
+  useEffect(() => {
+    const user = getActiveSession();
+    if (!user) { setLoading(false); return; }
+
+    fetchNotes(user.id)
+      .then(data => setNotes(data))
+      .catch(err => console.error('Failed to load notes:', err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // ── Save new note to Oracle ───────────────────────────────────────
+  const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newNote: ResearchNote = {
-      id: `rn-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
+    const user = getActiveSession();
+    if (!user) return;
+
+    setSaving(true);
+    const saved = await saveNote(user.id, {
       symbol: symbol.toUpperCase(),
       category,
       setupType,
       keyLevel,
       targetOutlook,
       timeframe,
-      thesis: thesis || 'Technical thesis note logged.',
-    };
-    setNotes([newNote, ...notes]);
-    setShowAddForm(false);
-    setThesis('');
+      thesis: thesis.trim() || 'Technical thesis note logged.',
+    });
+    setSaving(false);
+
+    if (saved) {
+      setNotes(prev => [saved, ...prev]);
+      setShowAddForm(false);
+      setThesis('');
+    }
   };
 
-  const handleDelete = (id: string) => {
-    setNotes(notes.filter(n => n.id !== id));
+  // ── Delete note from Oracle ───────────────────────────────────────
+  const handleDelete = async (id: string) => {
+    const user = getActiveSession();
+    if (!user) return;
+
+    // Optimistic UI update first
+    setNotes(prev => prev.filter(n => n.id !== id));
+    await deleteNote(id, user.id);
   };
 
   return (
@@ -91,6 +71,7 @@ export const TradingJournalView: React.FC = () => {
           </h2>
           <p className="font-body-sm text-outline mt-0.5">
             Document chart patterns, support/resistance zones, financial catalysts, and analyst theses.
+            {' '}<span className="text-primary font-semibold">Saved to Oracle DB.</span>
           </p>
         </div>
         <button
@@ -104,6 +85,14 @@ export const TradingJournalView: React.FC = () => {
           <span>{showAddForm ? 'Cancel Thesis' : 'Log Analysis Thesis'}</span>
         </button>
       </div>
+
+      {/* Loading state */}
+      {loading && (
+        <div className="flex items-center gap-2 text-outline font-mono-xs py-4">
+          <span className="material-symbols-outlined text-[18px] animate-spin">sync</span>
+          Loading your research notes from Oracle…
+        </div>
+      )}
 
       {/* Research Categories Overview Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-space-md">
@@ -243,9 +232,10 @@ export const TradingJournalView: React.FC = () => {
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-primary text-black rounded-lg font-label-md font-bold hover:bg-primary-fixed transition-colors cursor-pointer"
+              disabled={saving}
+              className="px-5 py-2 bg-primary text-black rounded-lg font-label-md font-bold hover:bg-primary-fixed transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save Analysis Thesis
+              {saving ? 'Saving…' : 'Save Analysis Thesis'}
             </button>
           </div>
         </form>
